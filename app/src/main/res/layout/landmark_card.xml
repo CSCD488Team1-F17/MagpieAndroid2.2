@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorMagpieWhite"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/landmarkImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="7dp"
+            android:layout_weight="2"
+            android:src="@drawable/magpie_test_cardview_collectionimage"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/landmarkName"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="2"
+                android:fontFamily="@font/advent_pro_thin"
+                android:gravity="left|center"
+                android:text="Landmark"
+                android:textColor="@color/colorMagpieBlack"
+                android:textSize="20sp"
+                android:typeface="sans" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/clock"/>
+
+                <TextView
+                    android:id="@+id/landmarkTime"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="14"
+                    android:textSize="12sp"
+                    android:gravity="right|top"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="5"
+                    android:fontFamily="@font/advent_pro_thin"
+                    android:gravity="left|top"
+                    android:text="MINUTES"
+                    android:textColor="@color/colorMagpieLightGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="11">
+
+            <TextView
+                android:id="@+id/landmarkSponsor"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="2"
+                android:fontFamily="@font/advent_pro_thin"
+                android:gravity="right|top"
+                android:text="Author Name"
+                android:textColor="@color/colorMagpieLightGray"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_gravity="right"
+                    android:src="@drawable/map_pin"/>
+
+                <TextView
+                    android:id="@+id/landmarkMiles"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text=".84"
+                    android:textSize="12sp"
+                    android:gravity="left|top"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="7"
+                    android:fontFamily="@font/advent_pro_thin"
+                    android:gravity="left|top"
+                    android:text="MILES"
+                    android:textColor="@color/colorMagpieLightGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

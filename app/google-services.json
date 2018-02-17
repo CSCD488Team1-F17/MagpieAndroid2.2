@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "955947345618",
+    "firebase_url": "https://magpie-3d047.firebaseio.com",
+    "project_id": "magpie-3d047",
+    "storage_bucket": "magpie-3d047.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955947345618:android:1bb17c4758e52334",
+        "android_client_info": {
+          "package_name": "com.magpiehunt.magpie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955947345618-c9rp2ar8q0daoa9q26nu91rdnvmui68k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.magpiehunt.magpie",
+            "certificate_hash": "ef3fdcc43dd83b0e9292a48be9e12cdd519119ad"
+          }
+        },
+        {
+          "client_id": "955947345618-m2gv4vonbip8mbbnotb71o7fr42p4fqd.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "955947345618-74sglr02q0iujrrkdnatsau8mukqeu38.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.magpiehunt.magpie",
+            "certificate_hash": "3500ff8b257161d387b44beca3791268a2a8428c"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYfBh2WN_9GbPYf9dX1GcQLGLmi4JVZlk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955947345618-m2gv4vonbip8mbbnotb71o7fr42p4fqd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

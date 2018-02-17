@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Magpie</string>
+    <string name="google_sign_in">Google Sign-In</string>
+    <string name="default_web_client_id_server">955947345618-74sglr02q0iujrrkdnatsau8mukqeu38.apps.googleusercontent.com</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_qr">QR Reader</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_prizes">Prizes</string>
+
+    <string name="hello_collections_fragment">Hello collections fragment</string>
+    <string name="hello_map_fragment">Hello map fragment</string>
+    <string name="hello_qr_fragment">Hello qr fragment</string>
+    <string name="hello_search_fragment">Hello search fragment</string>
+    <string name="hello_prizes_fragment">Hello prizes fragment</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="add_location">Add Location</string>
+    <string name="save_locations">Save Locations</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="map_view">Map View</string>
+    <string name="share">Share</string>
+    <string name="landmark">_landmark</string>
+    <string name="collect_button">Collect Button</string>
+    <string name="collect">COLLECT</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="description">Description</string>
+    <!--<string name="default_web_client_id">1051549843498-kfetusesfc5drgo9bv9p93imug1oj6na.apps.googleusercontent.com</string>
+        This is actually given to us already! No need to specifically declare. Leaving this here for future reference. :)
+    -->
+</resources>

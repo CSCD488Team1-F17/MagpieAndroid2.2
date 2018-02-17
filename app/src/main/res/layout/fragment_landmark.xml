@@ -1,0 +1,146 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.magpiehunt.magpie.Fragments.LandmarkFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/landmarkImage"
+            android:layout_width="match_parent"
+            android:layout_height="298dp"
+            android:src="@drawable/magpie_logo_bird_name" />
+
+        <View
+            android:id="@+id/backgroundLandmarkName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/background_landmark_name"
+            app:layout_constraintBottom_toBottomOf="@id/landmarkImage"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="@string/landmark"
+            android:textColor="@color/colorMagpieWhite"
+            android:textAlignment="center"
+            android:alpha=".5"/>
+
+        <View
+            android:id="@+id/backgroundCollect"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/background_landmark_collect"
+            app:layout_constraintBottom_toBottomOf="@id/mapButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backgroundLandmarkName"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/mapButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:drawableTop="@drawable/map_view"
+            android:text="@string/map_view"
+            android:textColor="@color/colorMagpieWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backgroundLandmarkName" />
+
+
+        <Button
+            android:id="@+id/shareButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:drawableTop="@drawable/map_view"
+            android:text="@string/share"
+            android:textColor="@color/colorMagpieWhite"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundCollect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backgroundLandmarkName"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/landmarkSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/subtitle"
+            android:textStyle="bold"
+            android:textColor="@color/colorMagpieLightGray"
+            android:textAllCaps="true"
+            android:fontFamily="@font/font_awesome"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mapButton" />
+
+        <TextView
+            android:id="@+id/landmarkDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/description"
+            android:textColor="@color/colorMagpieBlack"
+            android:fontFamily="@font/font_awesome"
+            app:layout_constraintLeft_toLeftOf="@id/landmarkSubTitle"
+            app:layout_constraintTop_toBottomOf="@+id/landmarkSubTitle" />
+
+        <ImageView
+            android:id="@+id/imageButton"
+            android:layout_width="132dp"
+            android:layout_height="96dp"
+            android:contentDescription="@string/collect_button"
+            android:src="@drawable/placeholder_badge"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundCollect"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backgroundCollect" />
+
+        <View
+            android:id="@+id/foregroundCollect"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/background_landmark_collect"
+            app:layout_constraintBottom_toBottomOf="@id/mapButton"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/imageButton"
+            app:layout_constraintTop_toBottomOf="@id/backgroundLandmarkName"
+            />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/collect"
+            android:fontFamily="@font/material"
+            android:textColor="@color/colorMagpieWhite"
+            app:layout_constraintBottom_toBottomOf="@+id/foregroundCollect"
+            app:layout_constraintEnd_toEndOf="@+id/foregroundCollect"
+            app:layout_constraintStart_toStartOf="@+id/foregroundCollect"
+            app:layout_constraintTop_toTopOf="@+id/foregroundCollect" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
