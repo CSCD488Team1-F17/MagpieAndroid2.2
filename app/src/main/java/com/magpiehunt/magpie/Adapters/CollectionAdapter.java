@@ -126,7 +126,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         }//end DVC
 
         void setCondensedData(int position) {
-            Collection currentObject = collectionList.get(position);
+            currentObject = collectionList.get(position);
 
             this.collectionTitle.setText(currentObject.getName());
             this.collectionAbbreviation.setText(currentObject.getAbbreviation());

@@ -128,10 +128,12 @@ public class SearchCollectionAdapter extends RecyclerView.Adapter<SearchCollecti
         private ImageView imgThumb, expandArrow;
         private Collection currentObject;
 
+
         // fields for CardView (Expanded)
         ExpandableLinearLayout expandableLinearLayout;
         private TextView description;
         private TextView rating;
+        private Button addCollectionBtn;
 
         public CollectionHolder(View itemView) {
             super(itemView);
@@ -142,12 +144,13 @@ public class SearchCollectionAdapter extends RecyclerView.Adapter<SearchCollecti
             this.expandArrow = itemView.findViewById(R.id.expandArrow_search);
 
             // expanded views
-            expandableLinearLayout = itemView.findViewById(R.id.expandableLayout_search);
+            this.expandableLinearLayout = itemView.findViewById(R.id.expandableLayout_search);
             this.description = itemView.findViewById(R.id.dropdown_description_search);
+            this.addCollectionBtn = itemView.findViewById(R.id.button_addCollection_search);
         }//end DVC
 
         void setCondensedData(int position) {
-            Collection currentObject = collectionList.get(position);
+            currentObject = collectionList.get(position);
 
             this.collectionTitle.setText(currentObject.getName());
             this.collectionAbbreviation.setText(currentObject.getAbbreviation());
@@ -167,6 +170,7 @@ public class SearchCollectionAdapter extends RecyclerView.Adapter<SearchCollecti
 
         public void setListeners() {
             expandArrow.setOnClickListener(CollectionHolder.this);
+            addCollectionBtn.setOnClickListener(CollectionHolder.this);
             //TODO: change this listener to respond to a click of the whole card?
            // imgThumb.setOnClickListener(CollectionHolder.this);
             //addBtn.setOnClickListener(CollectionHolder.this);
@@ -175,12 +179,12 @@ public class SearchCollectionAdapter extends RecyclerView.Adapter<SearchCollecti
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.expandArrow_collection:
+                case R.id.expandArrow_search:
                     this.expandableLinearLayout.toggle();
 
                     break;
 
-                case R.id.img_thumb_collection:
+                case R.id.img_thumb_search:
                     //TODO: implement opening the collection (view landmarks)
                     break;
 

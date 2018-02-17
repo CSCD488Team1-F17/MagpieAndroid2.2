@@ -3,7 +3,10 @@ package com.magpiehunt.magpie.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,16 +14,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.magpiehunt.magpie.Adapters.CollectionAdapter;
 import com.magpiehunt.magpie.Database.MagpieDatabase;
 import com.magpiehunt.magpie.Entities.Collection;
+import com.magpiehunt.magpie.MainActivity;
 import com.magpiehunt.magpie.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollectionFragment extends Fragment {
+public class CollectionFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "CollectionFragment";
 
@@ -29,6 +34,8 @@ public class CollectionFragment extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected List<Collection> mDataset;
     protected MagpieDatabase magpieDatabase;
+
+    private Button addCollectionBtn;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -71,7 +78,8 @@ public class CollectionFragment extends Fragment {
 
         Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
         toolbar.setTitle("My Collections");
-
+        this.addCollectionBtn = rootView.findViewById(R.id.button_addCollection_collection);
+        addCollectionBtn.setOnClickListener(CollectionFragment.this);
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -89,6 +97,8 @@ public class CollectionFragment extends Fragment {
         return rootView;
 
     }
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -133,6 +143,30 @@ public class CollectionFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_addCollection_collection:
+                swapToSearchFragment();
+                break;
+
+
+            default:
+                break;
+        }//end switch
+    }//end onClick
+
+    private void swapToSearchFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        SearchCollectionsFragment fragment = SearchCollectionsFragment.newInstance();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.menu_search);
     }
 
     /**

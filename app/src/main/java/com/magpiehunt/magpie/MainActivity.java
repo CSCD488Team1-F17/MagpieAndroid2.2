@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.IdpResponse;
@@ -33,15 +35,20 @@ import com.magpiehunt.magpie.Fragments.SearchCollectionsFragment;
  * Date:    11/14/17.
  */
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnFragmentInteractionListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener,PrizesFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnFragmentInteractionListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener,PrizesFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
     private static final int RC_SIGN_IN = 123;
     private int requestCode = 0;
 
-    private BottomNavigationView bottomNavigationView;
+
+
+    protected BottomNavigationView bottomNavigationView;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+
+    private Button addCollectionBtn;
+
 
     /*
      * Firebase/Google instance variables
@@ -93,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         bottomNavigationView.setSelectedItemId(R.id.menu_home);
 
         setupFragments();
+        this.addCollectionBtn = (Button)findViewById(R.id.button_addCollection_collection);
     }//end onCreate
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -171,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         transaction.commit();
     }
 
+    private void swapToSearchFragment()
+    {
+        bottomNavigationView.setSelectedItemId(R.id.menu_search);
+    }
     @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         switch (item.getItemId()) {
@@ -203,5 +215,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+    public BottomNavigationView getBottomNavigationView() {
+        return bottomNavigationView;
     }
 }
