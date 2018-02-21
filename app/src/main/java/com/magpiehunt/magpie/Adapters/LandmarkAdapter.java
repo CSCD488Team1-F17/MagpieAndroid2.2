@@ -43,11 +43,11 @@ public class LandmarkAdapter extends RecyclerView.Adapter<LandmarkAdapter.Landma
         public LandmarkHolder(View itemView) {
             super(itemView);
             // attach to landmark_card.xml items
-            this.landmarkSponsor = (TextView) itemView.findViewById(R.id.landmarkSponsor);
-            this.landmarkName = (TextView) itemView.findViewById(R.id.landmarkName);
-            this.landmarkMiles = (TextView) itemView.findViewById(R.id.landmarkMiles);
-            this.landmarkTime = (TextView) itemView.findViewById(R.id.landmarkTime);
-            this.landmarkImage = (ImageView) itemView.findViewById(R.id.landmarkImage);
+            this.landmarkSponsor = itemView.findViewById(R.id.landmarkSponsor);
+            this.landmarkName = itemView.findViewById(R.id.landmarkName);
+            this.landmarkMiles = itemView.findViewById(R.id.landmarkMiles);
+            this.landmarkTime = itemView.findViewById(R.id.landmarkTime);
+            this.landmarkImage = itemView.findViewById(R.id.landmarkImage);
         }//end EVC
 
         public void setData(Landmark currentObject, int position) {

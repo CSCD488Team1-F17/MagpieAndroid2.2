@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //TODO HawkAuthenticationInterceptor by Retrofit
 public class ServiceGenerator {
 
-    private static final String BASE_URL = "http://10.0.0.51/api/";
+    private static final String BASE_URL = "http://10.104.177.8/api/";
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()

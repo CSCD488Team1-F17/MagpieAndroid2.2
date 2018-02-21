@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.magpiehunt.magpie.Database.MagpieDatabase;
 import com.magpiehunt.magpie.R;
 
+import static com.loopj.android.http.AsyncHttpClient.log;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,14 +23,12 @@ import com.magpiehunt.magpie.R;
  * create an instance of this fragment.
  */
 public class CollectionLandmarksFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String TAG = "CollectionLandmarksFragment";
+
+    private static final String CID = "CID";
+
+    private int cid;
 
     private OnFragmentInteractionListener mListener;
 
@@ -36,20 +36,11 @@ public class CollectionLandmarksFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CollectionLandmarksFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static CollectionLandmarksFragment newInstance(String param1, String param2) {
+    public static CollectionLandmarksFragment newInstance(int cid) {
         CollectionLandmarksFragment fragment = new CollectionLandmarksFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(CID, cid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,8 +49,7 @@ public class CollectionLandmarksFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            cid = Integer.parseInt(getArguments().getString(CID));
         }
     }
 
@@ -72,7 +62,8 @@ public class CollectionLandmarksFragment extends Fragment {
 
         MagpieDatabase magpieDatabase = MagpieDatabase.getMagpieDatabase(this.getActivity());
         //replace param with cid of collection from bundle
-        magpieDatabase.landmarkDao().getLandmarks(0);
+        magpieDatabase.landmarkDao().getLandmarks(this.cid);
+        log.d(TAG, String.valueOf(cid));
 
 
         return view;

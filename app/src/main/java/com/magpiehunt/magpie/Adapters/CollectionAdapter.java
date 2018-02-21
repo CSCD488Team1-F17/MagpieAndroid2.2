@@ -2,6 +2,8 @@ package com.magpiehunt.magpie.Adapters;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -9,15 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableLayoutListenerAdapter;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.github.aakira.expandablelayout.Utils;
 import com.magpiehunt.magpie.Entities.Collection;
+import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
 import com.magpiehunt.magpie.R;
 
 import java.util.List;
+
+import static com.loopj.android.http.AsyncHttpClient.log;
 
 /**
  * Created by Blake Impecoven on 1/22/18.
@@ -30,11 +36,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     private List<Collection> collectionList;
     private String fragmentTag;
     private SparseBooleanArray expandState;
+    private android.support.v4.app.Fragment fragment;
 
-    public CollectionAdapter(List<Collection> collectionList, String fragmentTag, Context context) {
+    public CollectionAdapter(List<Collection> collectionList, String fragmentTag, Context context, android.support.v4.app.Fragment fragment) {
         this.collectionList = collectionList;
         this.fragmentTag = fragmentTag;
         this.context = context;
+        this.fragment = fragment;
         this.expandState = new SparseBooleanArray();
         for (int x = 0; x < collectionList.size(); x++) {
             expandState.append(x, false);
@@ -106,6 +114,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         private TextView collectionAbbreviation;
         private ImageView imgThumb, expandArrow;
         private Collection currentObject;
+        private LinearLayout card;
 
         // fields for CardView (Expanded)
         ExpandableLinearLayout expandableLinearLayout;
@@ -118,7 +127,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             this.collectionAbbreviation = itemView.findViewById(R.id.tvAbbreviation_collection);
             this.imgThumb = itemView.findViewById(R.id.img_thumb_collection);
             this.expandArrow = itemView.findViewById(R.id.expandArrow_collection);
-
+            this.card = itemView.findViewById(R.id.card_collection);
             // expanded views
             expandableLinearLayout = itemView.findViewById(R.id.expandableLayout_collection);
             this.description = itemView.findViewById(R.id.dropdown_description_collection);
@@ -138,6 +147,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
         public void setListeners() {
             expandArrow.setOnClickListener(CollectionHolder.this);
+            card.setOnClickListener(CollectionHolder.this);
             //TODO: change this listener to respond to a click of the whole card?
             //imgThumb.setOnClickListener(CollectionHolder.this);
         }//end setListeners
@@ -150,6 +160,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+
+                case R.id.card_collection:
+                    log.d(TAG, "CollectionClick: " + currentObject.getName());
+                    //startCollectionLandmarks();
+                    break;
+
                 case R.id.expandArrow_collection:
                     this.expandableLinearLayout.toggle();
 
@@ -157,6 +173,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
                 case R.id.img_thumb_collection:
                     //TODO: implement opening the collection (view landmarks)
+
                     break;
 
                 //TODO: implement deletion below.
@@ -169,6 +186,16 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
                     break;
             }//end switch
         }//end onClick
+
+        private void startCollectionLandmarks() {
+            FragmentManager fragmentManager = fragment.getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            CollectionLandmarksFragment fragment = CollectionLandmarksFragment.newInstance(currentObject.getCID());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
+
+        }
 
         // will be used at some point.
         //TODO: decide on gesture or button removal.

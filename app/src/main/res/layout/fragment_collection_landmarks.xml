@@ -4,10 +4,27 @@
     android:layout_height="match_parent"
     tools:context="com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <android.support.design.widget.TabLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start|top">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="left"
+            android:icon="@drawable/landmark_list_view_selected" />
+        <android.support.design.widget.TabItem
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="left"
+            android:icon="@drawable/landmark_icon_view_unselected" />
+        <android.support.design.widget.TabItem
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="left"
+            android:icon="@drawable/landmark_map_view_unselected" />
+
+    </android.support.design.widget.TabLayout>
 
 </FrameLayout>

@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         // Initialize Firebase
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         bottomNavigationView.setSelectedItemId(R.id.menu_home);
 
         setupFragments();
-        this.addCollectionBtn = (Button)findViewById(R.id.button_addCollection_collection);
+        this.addCollectionBtn = findViewById(R.id.button_addCollection_collection);
     }//end onCreate
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

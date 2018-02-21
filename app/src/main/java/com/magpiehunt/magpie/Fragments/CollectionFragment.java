@@ -19,7 +19,6 @@ import android.widget.Button;
 import com.magpiehunt.magpie.Adapters.CollectionAdapter;
 import com.magpiehunt.magpie.Database.MagpieDatabase;
 import com.magpiehunt.magpie.Entities.Collection;
-import com.magpiehunt.magpie.MainActivity;
 import com.magpiehunt.magpie.R;
 
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
 
         MagpieDatabase db = MagpieDatabase.getMagpieDatabase(getActivity());
         //List<Collection> collections = db.collectionDao().getCollections();
-        mModelAdapter = new CollectionAdapter(mDataset, CollectionFragment.TAG, this.getActivity());
+        mModelAdapter = new CollectionAdapter(mDataset, CollectionFragment.TAG, this.getActivity(), CollectionFragment.this);
         // Set the adapter for RecyclerView.
         mRecyclerView.setAdapter(mModelAdapter);
 
