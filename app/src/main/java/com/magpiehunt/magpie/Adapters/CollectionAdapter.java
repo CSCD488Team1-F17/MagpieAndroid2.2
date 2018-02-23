@@ -163,7 +163,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
                 case R.id.card_collection:
                     log.d(TAG, "CollectionClick: " + currentObject.getName());
-                    //startCollectionLandmarks();
+                    startCollectionLandmarks();
+
                     break;
 
                 case R.id.expandArrow_collection:
@@ -190,7 +191,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         private void startCollectionLandmarks() {
             FragmentManager fragmentManager = fragment.getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            CollectionLandmarksFragment fragment = CollectionLandmarksFragment.newInstance(currentObject.getCID());
+            CollectionLandmarksFragment fragment = CollectionLandmarksFragment.newInstance(currentObject.getCID(), currentObject.getName());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();

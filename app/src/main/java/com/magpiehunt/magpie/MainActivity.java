@@ -34,7 +34,7 @@ import com.magpiehunt.magpie.Fragments.SearchCollectionsFragment;
  * Date:    11/14/17.
  */
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnFragmentInteractionListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener,PrizesFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnLandmarkSelectedListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener,PrizesFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
     private static final int RC_SIGN_IN = 123;
@@ -217,5 +217,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
     public BottomNavigationView getBottomNavigationView() {
         return bottomNavigationView;
+    }
+
+    @Override
+    public void onLandmarkSelected(int cid) {
+
     }
 }

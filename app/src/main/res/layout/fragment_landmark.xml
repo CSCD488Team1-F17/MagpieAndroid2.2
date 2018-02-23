@@ -65,7 +65,8 @@
             android:text="@string/map_view"
             android:textColor="@color/colorMagpieWhite"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backgroundLandmarkName" />
+            app:layout_constraintTop_toBottomOf="@+id/backgroundLandmarkName"
+            android:layout_marginStart="16dp" />
 
 
         <Button

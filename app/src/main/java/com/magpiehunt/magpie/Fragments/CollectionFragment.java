@@ -1,7 +1,6 @@
 package com.magpiehunt.magpie.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -46,7 +45,7 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnLandmarkSelectedListener mListener;
 
     public CollectionFragment() {
         // Required empty public constructor
@@ -77,6 +76,7 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
 
         Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
         toolbar.setTitle("My Collections");
+
         this.addCollectionBtn = rootView.findViewById(R.id.button_addCollection_collection);
         addCollectionBtn.setOnClickListener(CollectionFragment.this);
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
@@ -130,12 +130,14 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+
+        //TODO implement this before release, just for testing
+       /* if (context instanceof OnLandmarkSelectedListener) {
+            mListener = (OnLandmarkSelectedListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+                    + " must implement OnLandmarkSelectedListener");
+        }*/
     }
 
     @Override
@@ -178,8 +180,10 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+    //TODO implement this before release, just for testing
+    public interface OnLandmarkSelectedListener {
+        // TODO: Update argument type and name
+        void onLandmarkSelected(int cid);
     }
 
     // TODO: Replace the test data within this with data from room DB

@@ -1,7 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorMagpieWhite"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.magpiehunt.magpie.Fragments.SearchCollectionsFragment">
 
 
@@ -12,4 +14,4 @@
         >
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</LinearLayout>
