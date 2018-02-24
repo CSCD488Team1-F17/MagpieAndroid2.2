@@ -19,7 +19,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="7dp"
-            android:src="@drawable/magpie_test_cardview_collectionimage"/>
+            android:src="@drawable/magpie_test_cardview_collectionimage" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:layout_margin="7dp"
             android:layout_gravity="center"
-            android:src="@drawable/temp_dropdown_arrow_down"/>
+            android:src="@drawable/temp_dropdown_arrow_down" />
 
     </LinearLayout>
 
@@ -78,7 +78,7 @@
 
         <include
             android:id="@+id/dropdown_information_collection"
-            layout="@layout/dropdown_data_collections"/>
+            layout="@layout/dropdown_data_collections" />
 
     </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 
@@ -86,6 +86,6 @@
         android:layout_below="@id/expandableLayout_collection"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorMagpieLightGray"/>
+        android:background="@color/colorMagpieLightGray" />
 
 </RelativeLayout>

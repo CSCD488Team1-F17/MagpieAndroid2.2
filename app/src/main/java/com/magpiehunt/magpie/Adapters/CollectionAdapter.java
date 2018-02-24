@@ -27,7 +27,7 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 
 /**
  * Created by Blake Impecoven on 1/22/18.
-*/
+ */
 public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.CollectionHolder> {
 
     private static final String TAG = "CollectionAdapter";
@@ -48,6 +48,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             expandState.append(x, false);
         }//end for
     }//end DVC
+
     // Create new views (invoked by the layout manager)
     @Override
     public CollectionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -85,7 +86,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             }
         });
 
-        holder.expandArrow.setRotation(expandState.get(position)?180f:0f);
+        holder.expandArrow.setRotation(expandState.get(position) ? 180f : 0f);
         holder.setListeners();
 
         holder.setExpandedData(position);
@@ -97,6 +98,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         animator.setInterpolator(Utils.createInterpolator(Utils.LINEAR_INTERPOLATOR));
         return animator;
     }
+
     @Override
     public int getItemCount() {
         return collectionList.size();
@@ -105,9 +107,9 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     public class CollectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private static final String TAG = "CollectionHolder";
-
+        // fields for CardView (Expanded)
+        ExpandableLinearLayout expandableLinearLayout;
         private int position;
-
         // We may need to add more fields here for expanding of the cards.
         // fields for CardView (Condensed)
         private TextView collectionTitle;
@@ -115,9 +117,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         private ImageView imgThumb, expandArrow;
         private Collection currentObject;
         private LinearLayout card;
-
-        // fields for CardView (Expanded)
-        ExpandableLinearLayout expandableLinearLayout;
         private TextView description;
         private TextView rating;
 
@@ -151,12 +150,14 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             //TODO: change this listener to respond to a click of the whole card?
             //imgThumb.setOnClickListener(CollectionHolder.this);
         }//end setListeners
+
         void setExpandedData(int position) {
             Collection currentObject = collectionList.get(position);
 
             this.description.setText(currentObject.getDescription());
 //            this.rating.setText(currentObject.getRating());
         }//end setExpandedData
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -213,14 +214,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         }//end addItem
 
     }//end inner class: CollectionHolder
-
-
-
-
-
-
-
-
 
 
 }//end CollectionAdapter

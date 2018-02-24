@@ -11,10 +11,10 @@ import com.google.gson.annotations.SerializedName;
  * Created by James on 1/10/2018.
  */
 
-@Entity(tableName = "Landmarks" , foreignKeys = @ForeignKey(
-                                            entity = Collection.class,
-                                            parentColumns = "cID",
-                                            childColumns = "cID"))
+@Entity(tableName = "Landmarks", foreignKeys = @ForeignKey(
+        entity = Collection.class,
+        parentColumns = "cID",
+        childColumns = "cID"))
 public class Landmark {
 
     @SerializedName("LID")

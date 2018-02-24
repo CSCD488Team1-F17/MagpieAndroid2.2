@@ -26,7 +26,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/colorMagpieWhite"
             android:textAlignment="center"
-            android:alpha=".7"/>
+            android:alpha=".7" />
 
         <TextView
             android:id="@+id/landmarkName"
@@ -41,6 +41,7 @@
             app:layout_constraintEnd_toEndOf="@+id/backgroundLandmarkName"
             app:layout_constraintStart_toStartOf="@+id/backgroundLandmarkName"
             app:layout_constraintTop_toTopOf="@+id/backgroundLandmarkName" />
+
         <View
             android:id="@+id/backgroundCollect"
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -138,8 +139,7 @@
             app:layout_constraintLeft_toLeftOf="@id/collectButton"
             app:layout_constraintRight_toRightOf="@id/collectButton"
             app:layout_constraintStart_toStartOf="@+id/collectButton"
-            app:layout_constraintBottom_toBottomOf="@id/collectButton"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/collectButton" />
 
         <TextView
             android:id="@+id/collectText"

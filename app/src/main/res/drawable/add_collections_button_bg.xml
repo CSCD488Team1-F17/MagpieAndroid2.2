@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <shape android:shape="rectangle" >
+        <shape android:shape="rectangle">
             <gradient
                 android:startColor="@color/colorMagpieGreen"
                 android:endColor="@color/colorMagpieBlue"
@@ -11,7 +11,7 @@
             <stroke
                 android:width="2dp"
                 android:color="#ff207d94" />
-            <corners android:radius="33dp"/>
+            <corners android:radius="33dp" />
         </shape>
     </item>
     <item
@@ -19,9 +19,9 @@
         android:left="4dp"
         android:right="4dp"
         android:top="4dp">
-        <shape android:shape="rectangle" >
+        <shape android:shape="rectangle">
             <solid android:color="@color/colorMagpieWhite" />
-            <corners android:radius="33dp"/>
+            <corners android:radius="33dp" />
         </shape>
     </item>
 

@@ -34,30 +34,22 @@ import com.magpiehunt.magpie.Fragments.SearchCollectionsFragment;
  * Date:    11/14/17.
  */
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnLandmarkSelectedListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener,PrizesFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnLandmarkSelectedListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener, PrizesFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
     private static final int RC_SIGN_IN = 123;
-    private int requestCode = 0;
-
-
-
+    public Menu optionsMenu;
     protected BottomNavigationView bottomNavigationView;
-    private Fragment fragment;
-    private FragmentManager fragmentManager;
-
-    private Button addCollectionBtn;
-
-
     /*
      * Firebase/Google instance variables
     **/
     FirebaseAuth mFirebaseAuth;
     FirebaseUser mFirebaseUser;
-
     GoogleApiClient mGoogleApiClient;
-    public Menu optionsMenu;
-
+    private int requestCode = 0;
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
+    private Button addCollectionBtn;
     private String mUsername;
     private String mPhotoUrl; // Optional - if we want their photo
 
@@ -80,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
             startActivityForResult(new Intent(this, SignInActivity.class), requestCode);
-       } else {
+        } else {
             // Just thought I'd throw this is in we need it in the future,
             // if not, it isnt hurting anything.
             mUsername = mFirebaseUser.getDisplayName();
@@ -108,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
-            if(requestCode == this.requestCode) {
+            if (requestCode == this.requestCode) {
                 if (resultCode == RESULT_OK) {
                     // Google Sign-In was successful, authenticate with Firebase
                     mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -121,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }//end
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         optionsMenu = menu;
@@ -140,8 +132,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     //TODO use new instance instead of new object
     //this method creates the fragments for each page accessible from the bottom navigation
     // bar and sets up the listener for the navigation bar.
-    private void setupFragments()
-    {
+    private void setupFragments() {
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -153,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 fragment = GoogleMapFragment.newInstance();
                                 break;
                             case R.id.menu_qr:
-                                fragment =  QRFragment.newInstance();
+                                fragment = QRFragment.newInstance();
                                 break;
                             case R.id.menu_home:
                                 fragment = CollectionFragment.newInstance();
@@ -169,6 +160,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         replace = fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment);
                         //replace.addToBackStack(null);
                         replace.commit();
+                        for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                            fragmentManager.popBackStack();
+                        }
                         return true;
                     }
                 });
@@ -176,14 +170,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, CollectionFragment.newInstance());
         transaction.commit();
+
     }
 
-    private void swapToSearchFragment()
-    {
+    private void swapToSearchFragment() {
         bottomNavigationView.setSelectedItemId(R.id.menu_search);
     }
+
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sign_out:
                 mFirebaseAuth.signOut();
@@ -200,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }//end
 
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         /*
@@ -215,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onFragmentInteraction(Uri uri) {
 
     }
+
     public BottomNavigationView getBottomNavigationView() {
         return bottomNavigationView;
     }

@@ -26,21 +26,16 @@ import java.util.List;
 public class CollectionFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "CollectionFragment";
-
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     protected RecyclerView mRecyclerView;
     protected CollectionAdapter mModelAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected List<Collection> mDataset;
     protected MagpieDatabase magpieDatabase;
-
     private Button addCollectionBtn;
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -52,7 +47,7 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
     }
 
 
-//    // TODO: Rename and change types and number of parameters
+    //    // TODO: Rename and change types and number of parameters
     public static CollectionFragment newInstance() {
         CollectionFragment fragment = new CollectionFragment();
         Bundle args = new Bundle();
@@ -170,22 +165,6 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
         bottomNavigationView.setSelectedItemId(R.id.menu_search);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    //TODO implement this before release, just for testing
-    public interface OnLandmarkSelectedListener {
-        // TODO: Update argument type and name
-        void onLandmarkSelected(int cid);
-    }
-
     // TODO: Replace the test data within this with data from room DB
     private void initializeData() {
         mDataset = new ArrayList<>();
@@ -233,4 +212,20 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
         mDataset.add(testCollection);
 */
     }//end
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    //TODO implement this before release, just for testing
+    public interface OnLandmarkSelectedListener {
+        // TODO: Update argument type and name
+        void onLandmarkSelected(int cid);
+    }
 }

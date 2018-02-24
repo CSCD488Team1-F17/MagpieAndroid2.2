@@ -35,7 +35,7 @@ public class QRFragment extends Fragment {
         // Required empty public constructor
     }
 
-    
+
     // TODO: Rename and change types and number of parameters
     public static QRFragment newInstance() {
         QRFragment fragment = new QRFragment();

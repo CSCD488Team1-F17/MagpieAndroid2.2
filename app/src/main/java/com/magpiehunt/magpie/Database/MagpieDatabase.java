@@ -19,23 +19,22 @@ public abstract class MagpieDatabase extends RoomDatabase {
 
     private static MagpieDatabase INSTANCE;
 
-    public abstract CollectionDao collectionDao();
-    public abstract LandmarkDao landmarkDao();
-    public static MagpieDatabase getMagpieDatabase(Context context)
-    {
-        if(INSTANCE == null)
-        {
-           INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                   MagpieDatabase.class, "MagpieDB")
-                   //remove the next line before production - queries must be run on worker threads
-                   .allowMainThreadQueries()
-                   .build();
+    public static MagpieDatabase getMagpieDatabase(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                    MagpieDatabase.class, "MagpieDB")
+                    //remove the next line before production - queries must be run on worker threads
+                    .allowMainThreadQueries()
+                    .build();
         }
         return INSTANCE;
     }
 
-    public static void destroyInstance()
-    {
+    public static void destroyInstance() {
         INSTANCE = null;
     }
+
+    public abstract CollectionDao collectionDao();
+
+    public abstract LandmarkDao landmarkDao();
 }
