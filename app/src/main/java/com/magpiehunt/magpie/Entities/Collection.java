@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 @Entity(tableName = "Collections")
-public class Collection{
+public class Collection {
 
     @SerializedName("CID")
     @Expose
@@ -57,13 +57,13 @@ public class Collection{
         this.cID = CID;
     }
 
-    public void setAvailable(int available) {
-        this.available = available;
-    }
     public int getAvailable() {
         return available;
     }
 
+    public void setAvailable(int available) {
+        this.available = available;
+    }
 
     public String getName() {
         return name;

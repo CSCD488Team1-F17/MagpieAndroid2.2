@@ -36,14 +36,12 @@ public class CollectionLandmarksFragment extends Fragment {
 
     private static final String CID = "CID";
     private static final String NAME = "Name";
-
-    private int cid;
-    private String cName;
-
-    private OnFragmentInteractionListener mListener;
     protected RecyclerView mRecyclerView;
     protected LandmarkAdapter mModelAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
+    private int cid;
+    private String cName;
+    private OnFragmentInteractionListener mListener;
 
     public CollectionLandmarksFragment() {
         // Required empty public constructor
@@ -53,7 +51,7 @@ public class CollectionLandmarksFragment extends Fragment {
     public static CollectionLandmarksFragment newInstance(int cid, String cName) {
         CollectionLandmarksFragment fragment = new CollectionLandmarksFragment();
         Bundle args = new Bundle();
-        args.putString(CID, cid +"");
+        args.putString(CID, cid + "");
         args.putString(NAME, cName);
         fragment.setArguments(args);
         return fragment;
@@ -100,6 +98,7 @@ public class CollectionLandmarksFragment extends Fragment {
 
         return rootView;
     }
+
     public void setRecyclerViewLayoutManager() {
         int scrollPosition = 0;
 
@@ -112,6 +111,7 @@ public class CollectionLandmarksFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.scrollToPosition(scrollPosition);
     }//end
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
        /* if (mListener != null) {
@@ -136,6 +136,7 @@ public class CollectionLandmarksFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

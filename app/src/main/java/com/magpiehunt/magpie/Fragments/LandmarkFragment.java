@@ -22,6 +22,8 @@ import com.magpiehunt.magpie.R;
 public class LandmarkFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    //Keys
     private static final String CID = "CID";
     private static final String LID = "LID";
     private static final String LANDMARK_NAME = "LandmarkName";
@@ -34,6 +36,9 @@ public class LandmarkFragment extends Fragment {
 
     public static String TAG = "LandmarkFragment";
 
+
+    //Members
+    //TODO give landmark a subtitle field
     private int cid;
     private int lid;
     private String landmarkName;
@@ -45,6 +50,7 @@ public class LandmarkFragment extends Fragment {
     private String qrCode;
     private OnFragmentInteractionListener mListener;
 
+    //Views
     private TextView landmarkNameTv;
     private TextView descriptionTv;
 
@@ -57,15 +63,15 @@ public class LandmarkFragment extends Fragment {
     public static LandmarkFragment newInstance(int cid, int lid, String landmarkName, int badgeID, String landmarkDescription, double latitude, double longitude, int picID, String qrCode) {
         LandmarkFragment fragment = new LandmarkFragment();
         Bundle args = new Bundle();
-        args.putString(CID, cid+"");
-        args.putString(LID, lid+"");
+        args.putString(CID, cid + "");
+        args.putString(LID, lid + "");
         args.putString(LANDMARK_NAME, landmarkName);
-        args.putString(BADGE_ID, badgeID+"");
+        args.putString(BADGE_ID, badgeID + "");
         args.putString(LANDMARK_DESCRIPTION, landmarkDescription);
-        args.putString(LATITUDE, latitude+"");
-        args.putString(LONGITUDE, longitude +"");
-        args.putString(PIC_ID, picID+"");
-        args.putString(QR_CODE, qrCode+"");
+        args.putString(LATITUDE, latitude + "");
+        args.putString(LONGITUDE, longitude + "");
+        args.putString(PIC_ID, picID + "");
+        args.putString(QR_CODE, qrCode + "");
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,12 +85,11 @@ public class LandmarkFragment extends Fragment {
             landmarkName = getArguments().getString(LANDMARK_NAME);
             landmarkDescription = getArguments().getString(LANDMARK_DESCRIPTION);
             badgeID = Integer.parseInt(getArguments().getString(BADGE_ID));
-            latitude = Integer.parseInt(getArguments().getString(LATITUDE));
-            longitude = Integer.parseInt(getArguments().getString(LONGITUDE));
+            latitude = Double.parseDouble(getArguments().getString(LATITUDE));
+            longitude = Double.parseDouble(getArguments().getString(LONGITUDE));
             picID = Integer.parseInt(getArguments().getString(PIC_ID));
-            qrCode =getArguments().getString(QR_CODE);
+            qrCode = getArguments().getString(QR_CODE);
 
-            //initialize views
 
         }
     }
@@ -94,30 +99,39 @@ public class LandmarkFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_landmark, container, false);
+        //initialize views
+        this.landmarkNameTv = rootView.findViewById(R.id.landmarkName);
+        this.descriptionTv = rootView.findViewById(R.id.landmarkDescription);
+
+        landmarkNameTv.setText(this.landmarkName);
+        descriptionTv.setText(this.landmarkDescription);
 
         //set views
         //change text
 
-        
+
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
+        //TODO implement this before release, just for testing
+
+        /*if (mListener != null) {
             mListener.onFragmentInteraction(uri);
-        }
+        }*/
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        //TODO implement this before release, just for testing
+
+        /*if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
+        }*/
     }
 
     @Override
@@ -136,6 +150,8 @@ public class LandmarkFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+    //TODO implement this before release, just for testing
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

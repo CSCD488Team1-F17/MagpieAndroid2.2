@@ -55,7 +55,7 @@ import static android.content.Context.LOCATION_SERVICE;
 //TODO handle denied permissions requests
 //Fix map not reloading on reload of map fragment
 public class GoogleMapFragment extends Fragment //implements OnViewCollectionListener
-    //if you want to send data to this fragment use the following code
+        //if you want to send data to this fragment use the following code
     /*
     private OnFragmentInteractionsListener mListener;
 
@@ -69,19 +69,19 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     //private static final String ARG_PARAM1 = "param1";
     //private static final String ARG_PARAM2 = "param2";
 
+    private final int PERMISSION_REQUEST = 1;
     //private bool hasPosition, mapActive;
     public List<Landmark> landmarks;
+    GPSTracker gpsTracker;
     private MenuItem addLocButton, saveLocButton;
     private float zoom;
     private MapLocationInfoWindow infoWindow;
     private Marker selectedMarker = null;//could be used in the future to allow for updating distance to location
     private ArrayList<Marker> markerList;
-    private final int PERMISSION_REQUEST = 1;
     private GoogleMap gMap = null;
     private Location currLoc;
     private OnFragmentInteractionListener mListener;
     private LatLng start = null;//curr loc
-    GPSTracker gpsTracker;
 
     // TODO: Rename and change types of parameters
     //private String mParam1;
@@ -94,9 +94,10 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
+     * <p>
      * param param1 Parameter 1.
      * param param2 Parameter 2.
+     *
      * @return A new instance of fragment GoogleMapFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -104,6 +105,14 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         GoogleMapFragment fragment = new GoogleMapFragment();
         Bundle args = new Bundle();
         return fragment;
+    }
+
+    //code copied from:
+    //https://stackoverflow.com/questions/8911356/whats-the-best-practice-to-round-a-float-to-2-decimals
+    private static float roundFloat(float d, int decimal) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimal, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
     }
 
     @Override
@@ -150,12 +159,12 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
 
             }
         };
-        LocationManager mLocationManager = (LocationManager)getActivity().getSystemService(LOCATION_SERVICE);
+        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         infoWindow = new MapLocationInfoWindow(getContext());
         currLoc = new Location((LocationManager.GPS_PROVIDER));
-        if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, mLocationListener);
         }
 
@@ -165,10 +174,9 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             //do stuff if saved
-        }
-        else{
+        } else {
             zoom = -1;
         }
     }
@@ -181,12 +189,12 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
 
         super.onResume();
         SupportMapFragment mapFrag = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
 
-        if(mapFrag == null) {
+        if (mapFrag == null) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             mapFrag = SupportMapFragment.newInstance();
@@ -202,7 +210,7 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap){
+    public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         initMap();
     }
@@ -211,18 +219,15 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             gMap.setMyLocationEnabled(true);
-        }
-        else
-        {
+        } else {
             ActivityCompat.requestPermissions(getActivity(), new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
             }, PERMISSION_REQUEST);
-            if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 gMap.setMyLocationEnabled(true);
-            }
-            else{
+            } else {
                 return;
             }
         }
@@ -233,7 +238,7 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
                 pressedLocation.setLatitude(marker.getPosition().latitude);
                 pressedLocation.setLongitude(marker.getPosition().longitude);
                 double distanceInMeters = currLoc.distanceTo(pressedLocation);
-                marker.setSnippet(roundFloat((float)distanceInMeters, 2) + " meters to Location.");
+                marker.setSnippet(roundFloat((float) distanceInMeters, 2) + " meters to Location.");
                 marker.showInfoWindow();
                 selectedMarker = marker;
                 return false;//this allows default behavior to take place
@@ -243,10 +248,10 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         mapSettings.setZoomControlsEnabled(true);
         mapSettings.setCompassEnabled(true);
         mapSettings.setRotateGesturesEnabled(true);
-        if(zoom != -1){
+        if (zoom != -1) {
             gMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
         }
-        if(checkLocationPermission()) {
+        if (checkLocationPermission()) {
             Log.d("onResume OK", "");
             gpsTracker = new GPSTracker(getActivity());
             if (gpsTracker.canGetLocation()) {
@@ -265,8 +270,8 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.add_location:
                 addCurrentLocation();
                 return true;
@@ -277,15 +282,14 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults){
-        switch(requestCode){
-            case 1:{//request accepted
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1: {//request accepted
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     gpsTracker = new GPSTracker(getActivity());
-                    if(gpsTracker.canGetLocation()){
+                    if (gpsTracker.canGetLocation()) {
                         start = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                    }
-                    else{
+                    } else {
                         //permission denied
                     }
                     return;
@@ -295,25 +299,25 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         }
     }
 
-    private void placeMarker(LatLng loc, String title){
+    private void placeMarker(LatLng loc, String title) {
         gMap.addMarker(new MarkerOptions().position(loc).title(title).icon(BitmapDescriptorFactory.defaultMarker(190)));
     }
 
-
-    private void addCurrentLocation(){
+    private void addCurrentLocation() {
         placeMarker(new LatLng(currLoc.getLatitude(), currLoc.getLongitude()), "New Loc");
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
         gpsTracker.stopUsingGPS();
         addLocButton.setVisible(false);
         saveLocButton.setVisible(false);
     }
+
     @Override
-    public void onPrepareOptionsMenu(Menu menu){
-       addLocButton = menu.findItem(R.id.add_location);
+    public void onPrepareOptionsMenu(Menu menu) {
+        addLocButton = menu.findItem(R.id.add_location);
         saveLocButton = menu.findItem(R.id.save_locations);
         addLocButton.setVisible(true);
         saveLocButton.setVisible(true);
@@ -324,6 +328,68 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         super.onDetach();
         mListener = null;
 
+    }
+    /*public void OnViewCollectionListener(){
+        //public void on
+    }//*/
+
+    //try using this to get the fragment
+    //getFragmentManager().findFragmentById(R.id.google_map_fragment);
+    //and then call this function with required landmarks to display data
+    public void displayCollection(List<Landmark> newCollection) {
+        landmarks = newCollection;
+        if (gMap != null) {
+            for (Landmark l : landmarks) {
+                showLandmark(l);
+            }
+        }
+    }
+
+    //helper functions==========================
+    private void showLandmark(Landmark landmark) {
+        MarkerOptions opt = new MarkerOptions();
+        opt.position(new LatLng(landmark.getLatitude(), landmark.getLongitude()));
+        opt.title(landmark.getLandmarkName());
+        gMap.addMarker(opt);
+    }
+
+    private boolean hasPermission() {
+        return ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void typePressed(View v) {
+        int type = gMap.getMapType();
+        if (type == GoogleMap.MAP_TYPE_NORMAL) {
+            gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        } else if (type == GoogleMap.MAP_TYPE_TERRAIN) {
+            gMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        } else if (type == GoogleMap.MAP_TYPE_TERRAIN) {
+            gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }
+    }
+
+    /*public void markPressed(View v){
+        Location l = getLocation();
+        LatLng coords = new LatLng(l.getLatitude(), l.getLongitude());
+        marks.add(new MarkerOptions());
+        marks.get(marks.size() - 1).position(coords);
+        marks.get(marks.size() - 1).title("Mark " + marks.size());
+        gMap.addMarker(marks.get(marks.size() - 1));
+    }//*/
+
+    private Location getLocation() {
+        LocationRequest lr = new LocationRequest();
+        lr.setInterval(0);//0 means do asap
+        lr.setFastestInterval(0);
+        lr.setNumUpdates(1);//stop after one recieved
+        lr.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        return null;
+    }
+
+    private void moveToLocation(Location l) {
+        LatLng coords = new LatLng(l.getLatitude(), l.getLongitude());
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 14));
     }
 
     /**
@@ -340,76 +406,4 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }//*/
-    /*public void OnViewCollectionListener(){
-        //public void on
-    }//*/
-
-    //try using this to get the fragment
-    //getFragmentManager().findFragmentById(R.id.google_map_fragment);
-    //and then call this function with required landmarks to display data
-    public void displayCollection(List<Landmark> newCollection){
-        landmarks = newCollection;
-        if(gMap != null){
-            for (Landmark l: landmarks) {
-                showLandmark(l);
-            }
-        }
-    }
-
-    //helper functions==========================
-    private void showLandmark(Landmark landmark){
-        MarkerOptions opt = new MarkerOptions();
-        opt.position(new LatLng(landmark.getLatitude(), landmark.getLongitude()));
-        opt.title(landmark.getLandmarkName());
-        gMap.addMarker(opt);
-    }
-
-    private boolean hasPermission(){
-        return ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public  void typePressed(View v){
-        int type = gMap.getMapType();
-        if(type == GoogleMap.MAP_TYPE_NORMAL){
-            gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        }
-        else if(type == GoogleMap.MAP_TYPE_TERRAIN){
-            gMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        }
-        else if(type == GoogleMap.MAP_TYPE_TERRAIN){
-            gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        }
-    }
-
-    /*public void markPressed(View v){
-        Location l = getLocation();
-        LatLng coords = new LatLng(l.getLatitude(), l.getLongitude());
-        marks.add(new MarkerOptions());
-        marks.get(marks.size() - 1).position(coords);
-        marks.get(marks.size() - 1).title("Mark " + marks.size());
-        gMap.addMarker(marks.get(marks.size() - 1));
-    }//*/
-
-    private Location getLocation(){
-        LocationRequest lr = new LocationRequest();
-        lr.setInterval(0);//0 means do asap
-        lr.setFastestInterval(0);
-        lr.setNumUpdates(1);//stop after one recieved
-        lr.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        return null;
-    }
-
-    private void moveToLocation(Location l){
-        LatLng coords = new LatLng(l.getLatitude(), l.getLongitude());
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 14));
-    }
-
-    //code copied from:
-    //https://stackoverflow.com/questions/8911356/whats-the-best-practice-to-round-a-float-to-2-decimals
-    private static float roundFloat(float d, int decimal){
-        BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimal, BigDecimal.ROUND_HALF_UP);
-        return bd.floatValue();
-    }
 }

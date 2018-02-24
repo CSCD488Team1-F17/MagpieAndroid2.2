@@ -34,7 +34,7 @@ import retrofit2.Response;
  * Use the {@link SearchCollectionsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchCollectionsFragment extends Fragment{
+public class SearchCollectionsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,7 +63,6 @@ public class SearchCollectionsFragment extends Fragment{
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     *
      * @return A new instance of fragment SearchCollectionsFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -81,8 +80,6 @@ public class SearchCollectionsFragment extends Fragment{
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         this.context = this.getActivity();
-
-
 
 
     }
@@ -112,7 +109,7 @@ public class SearchCollectionsFragment extends Fragment{
             @Override
             public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
                 collections = response.body();
-               // collections = callCollections;
+                // collections = callCollections;
                 mModelAdapter = new SearchCollectionAdapter(collections, context);
                 // Set the adapter for RecyclerView.
                 mRecyclerView.setAdapter(mModelAdapter);
@@ -129,7 +126,6 @@ public class SearchCollectionsFragment extends Fragment{
 
         return rootView;
     }
-
 
 
     //This method adds a collection to magpieDB as well as any associated landmarks
