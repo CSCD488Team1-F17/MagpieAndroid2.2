@@ -26,13 +26,15 @@
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/colorMagpieWhite"
             android:textAlignment="center"
-            android:alpha=".7" />
+            android:alpha=".7"
+            />
 
         <TextView
             android:id="@+id/landmarkName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/landmark"
+
             android:fontFamily="@font/material"
             android:textSize="16sp"
             android:textAllCaps="true"
@@ -139,7 +141,8 @@
             app:layout_constraintLeft_toLeftOf="@id/collectButton"
             app:layout_constraintRight_toRightOf="@id/collectButton"
             app:layout_constraintStart_toStartOf="@+id/collectButton"
-            app:layout_constraintBottom_toBottomOf="@id/collectButton" />
+            app:layout_constraintBottom_toBottomOf="@id/collectButton"
+            android:alpha=".9"/>
 
         <TextView
             android:id="@+id/collectText"

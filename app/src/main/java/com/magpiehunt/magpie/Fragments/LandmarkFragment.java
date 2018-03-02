@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,18 +61,8 @@ public class LandmarkFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static LandmarkFragment newInstance(int cid, int lid, String landmarkName, int badgeID, String landmarkDescription, double latitude, double longitude, int picID, String qrCode) {
+    public static LandmarkFragment newInstance(Bundle args) {
         LandmarkFragment fragment = new LandmarkFragment();
-        Bundle args = new Bundle();
-        args.putString(CID, cid + "");
-        args.putString(LID, lid + "");
-        args.putString(LANDMARK_NAME, landmarkName);
-        args.putString(BADGE_ID, badgeID + "");
-        args.putString(LANDMARK_DESCRIPTION, landmarkDescription);
-        args.putString(LATITUDE, latitude + "");
-        args.putString(LONGITUDE, longitude + "");
-        args.putString(PIC_ID, picID + "");
-        args.putString(QR_CODE, qrCode + "");
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,14 +71,14 @@ public class LandmarkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            cid = Integer.parseInt(getArguments().getString(CID));
-            lid = Integer.parseInt(getArguments().getString(LID));
+            cid = getArguments().getInt(CID);
+            lid = getArguments().getInt(LID);
             landmarkName = getArguments().getString(LANDMARK_NAME);
             landmarkDescription = getArguments().getString(LANDMARK_DESCRIPTION);
-            badgeID = Integer.parseInt(getArguments().getString(BADGE_ID));
-            latitude = Double.parseDouble(getArguments().getString(LATITUDE));
-            longitude = Double.parseDouble(getArguments().getString(LONGITUDE));
-            picID = Integer.parseInt(getArguments().getString(PIC_ID));
+            badgeID = getArguments().getInt(BADGE_ID);
+            latitude = getArguments().getDouble(LATITUDE);
+            longitude = getArguments().getDouble(LONGITUDE);
+            picID = getArguments().getInt(PIC_ID);
             qrCode = getArguments().getString(QR_CODE);
 
 
@@ -100,6 +91,11 @@ public class LandmarkFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_landmark, container, false);
         //initialize views
+
+        if (((AppCompatActivity)getActivity()).getSupportActionBar() != null){
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         this.landmarkNameTv = rootView.findViewById(R.id.landmarkName);
         this.descriptionTv = rootView.findViewById(R.id.landmarkDescription);
 

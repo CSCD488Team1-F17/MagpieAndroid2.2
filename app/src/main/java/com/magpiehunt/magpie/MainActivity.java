@@ -24,7 +24,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.magpiehunt.magpie.Fragments.CollectionFragment;
+import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
 import com.magpiehunt.magpie.Fragments.GoogleMapFragment;
+import com.magpiehunt.magpie.Fragments.LandmarkFragment;
 import com.magpiehunt.magpie.Fragments.PrizesFragment;
 import com.magpiehunt.magpie.Fragments.QRFragment;
 import com.magpiehunt.magpie.Fragments.SearchCollectionsFragment;
@@ -34,7 +36,7 @@ import com.magpiehunt.magpie.Fragments.SearchCollectionsFragment;
  * Date:    11/14/17.
  */
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnLandmarkSelectedListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener, PrizesFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnCollectionSelectedListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener, PrizesFragment.OnFragmentInteractionListener, CollectionLandmarksFragment.OnLandmarkSelectedListener {
 
     private static final String TAG = "MainActivity";
     private static final int RC_SIGN_IN = 123;
@@ -47,16 +49,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     FirebaseUser mFirebaseUser;
     GoogleApiClient mGoogleApiClient;
     private int requestCode = 0;
-    private Fragment fragment;
     private FragmentManager fragmentManager;
     private Button addCollectionBtn;
     private String mUsername;
     private String mPhotoUrl; // Optional - if we want their photo
-
-//    private DatabaseReference mFirebaseDatabaseReference;
-//    private FirebaseAnalytics mFirebaseAnalytics;
-//    private FirebaseRecyclerAdapter<type, type> mFirebaseAdapter;
-
+    //private FirebaseAuth.AuthStateListener authListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +62,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+
         // Initialize Firebase
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        int requestCode = 0;
+        final int requestCode = 0;
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
             startActivityForResult(new Intent(this, SignInActivity.class), requestCode);
@@ -93,7 +94,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setupFragments();
         this.addCollectionBtn = findViewById(R.id.button_addCollection_collection);
     }//end onCreate
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
 
+        return true;
+    }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        fragmentManager = getSupportFragmentManager();
+        hideBackButton();
+        fragmentManager.popBackStack();
+
+       // this.finish();
+    }
+    public void hideBackButton()
+    {
+        if(fragmentManager.getBackStackEntryCount() == 1 || fragmentManager.getBackStackEntryCount() == 0)
+        {
+            if (getSupportActionBar() != null){
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                getSupportActionBar().setDisplayShowHomeEnabled(false);
+            }
+        }
+    }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -138,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         FragmentTransaction replace;
-                        fragment = null;
+                        Fragment fragment = null;
                         switch (item.getItemId()) {
                             case R.id.menu_map:
                                 fragment = GoogleMapFragment.newInstance();
@@ -156,25 +181,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 fragment = PrizesFragment.newInstance();
                                 break;
                         }
-                        fragmentManager = getSupportFragmentManager();
-                        replace = fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment);
-                        //replace.addToBackStack(null);
-                        replace.commit();
+                        changeFragments(fragment);
                         for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
                             fragmentManager.popBackStack();
                         }
+                        hideBackButton();
                         return true;
                     }
                 });
-        fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, CollectionFragment.newInstance());
-        transaction.commit();
+        changeFragments(CollectionFragment.newInstance());
 
     }
 
-    private void swapToSearchFragment() {
-        bottomNavigationView.setSelectedItemId(R.id.menu_search);
+    public int changeFragments(Fragment frag)
+    {
+        fragmentManager = getSupportFragmentManager();
+        return fragmentManager.beginTransaction().replace(R.id.fragment_container, frag).commit();
     }
 
     @Override
@@ -215,7 +237,48 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     @Override
-    public void onLandmarkSelected(int cid) {
-
+    public void onCollectionSelected(int cid, String name) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Bundle args = new Bundle();
+        args.putInt("CID", cid);
+        args.putString("Name", name);
+        CollectionLandmarksFragment cl = CollectionLandmarksFragment.newInstance(args);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.fragment_container, cl);
+        fragmentTransaction.commit();
     }
+
+    @Override
+    public void onLandmarkSelected(int cid, int lid, String landmarkName, int badgeID, String landmarkDescription, double latitude, double longitude, int picID, String qrCode) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Bundle args = new Bundle();
+        args.putInt("CID", cid);
+        args.putInt("LID", lid);
+        args.putString("LandmarkName", landmarkName);
+        args.putInt("BadgeID", badgeID);
+        args.putString("LandmarkDescription", landmarkDescription);
+        args.putDouble("Latitude", latitude);
+        args.putDouble("Longitude", longitude);
+        args.putInt("PicID", picID);
+        args.putString("QRCode", qrCode);
+        LandmarkFragment fragment = LandmarkFragment.newInstance(args);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+    }
+   /* @Override
+    public void onStart() {
+        super.onStart();
+        mFirebaseAuth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            mFirebaseAuth.removeAuthStateListener(authListener);
+        }
+    }*/
 }

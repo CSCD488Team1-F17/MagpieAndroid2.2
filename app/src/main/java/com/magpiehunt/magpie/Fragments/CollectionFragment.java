@@ -40,7 +40,7 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
     private String mParam1;
     private String mParam2;
 
-    private OnLandmarkSelectedListener mListener;
+    private OnCollectionSelectedListener mListener;
 
     public CollectionFragment() {
         // Required empty public constructor
@@ -82,7 +82,7 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
 
         MagpieDatabase db = MagpieDatabase.getMagpieDatabase(getActivity());
         //List<Collection> collections = db.collectionDao().getCollections();
-        mModelAdapter = new CollectionAdapter(mDataset, CollectionFragment.TAG, this.getActivity(), CollectionFragment.this);
+        mModelAdapter = new CollectionAdapter(mDataset, CollectionFragment.TAG, this.getActivity(), CollectionFragment.this, this.mListener);
         // Set the adapter for RecyclerView.
         mRecyclerView.setAdapter(mModelAdapter);
 
@@ -127,12 +127,12 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
         super.onAttach(context);
 
         //TODO implement this before release, just for testing
-       /* if (context instanceof OnLandmarkSelectedListener) {
-            mListener = (OnLandmarkSelectedListener) context;
+        if (context instanceof OnCollectionSelectedListener) {
+            mListener = (OnCollectionSelectedListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnLandmarkSelectedListener");
-        }*/
+                    + " must implement OnCollectionSelectedListener");
+        }
     }
 
     @Override
@@ -224,8 +224,8 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
      * >Communicating with Other Fragments</a> for more information.
      */
     //TODO implement this before release, just for testing
-    public interface OnLandmarkSelectedListener {
+    public interface OnCollectionSelectedListener {
         // TODO: Update argument type and name
-        void onLandmarkSelected(int cid);
+        void onCollectionSelected(int cid, String name);
     }
 }
