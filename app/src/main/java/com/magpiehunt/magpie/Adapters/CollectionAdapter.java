@@ -2,8 +2,6 @@ package com.magpiehunt.magpie.Adapters;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -18,7 +16,7 @@ import com.github.aakira.expandablelayout.ExpandableLayoutListenerAdapter;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.github.aakira.expandablelayout.Utils;
 import com.magpiehunt.magpie.Entities.Collection;
-import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
+import com.magpiehunt.magpie.Fragments.CollectionFragment;
 import com.magpiehunt.magpie.R;
 
 import java.util.List;
@@ -37,13 +35,15 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     private String fragmentTag;
     private SparseBooleanArray expandState;
     private android.support.v4.app.Fragment fragment;
+    private CollectionFragment.OnCollectionSelectedListener listener;
 
-    public CollectionAdapter(List<Collection> collectionList, String fragmentTag, Context context, android.support.v4.app.Fragment fragment) {
+    public CollectionAdapter(List<Collection> collectionList, String fragmentTag, Context context, android.support.v4.app.Fragment fragment, CollectionFragment.OnCollectionSelectedListener listener) {
         this.collectionList = collectionList;
         this.fragmentTag = fragmentTag;
         this.context = context;
         this.fragment = fragment;
         this.expandState = new SparseBooleanArray();
+        this.listener = listener;
         for (int x = 0; x < collectionList.size(); x++) {
             expandState.append(x, false);
         }//end for
@@ -164,8 +164,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
                 case R.id.card_collection:
                     log.d(TAG, "CollectionClick: " + currentObject.getName());
-                    startCollectionLandmarks();
-
+                    listener.onCollectionSelected(currentObject.getCID(), currentObject.getName());
                     break;
 
                 case R.id.expandArrow_collection:
@@ -190,12 +189,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         }//end onClick
 
         private void startCollectionLandmarks() {
-            FragmentManager fragmentManager = fragment.getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            CollectionLandmarksFragment fragment = CollectionLandmarksFragment.newInstance(currentObject.getCID(), currentObject.getName());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
+           // AppCompatActivity activity = (AppCompatActivity )context;
+            //activity.changeFragments()
 
         }
 

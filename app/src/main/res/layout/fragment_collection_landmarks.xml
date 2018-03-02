@@ -16,10 +16,10 @@
             android:layout_gravity="start|top">
 
             <android.support.design.widget.TabItem
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="left"
-                android:icon="@drawable/landmark_list_view_selected" />
+                android:icon="@drawable/landmark_list" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="100dp"

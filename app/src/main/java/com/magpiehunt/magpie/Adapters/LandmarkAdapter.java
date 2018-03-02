@@ -1,8 +1,6 @@
 package com.magpiehunt.magpie.Adapters;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import com.magpiehunt.magpie.Database.MagpieDatabase;
 import com.magpiehunt.magpie.Entities.Landmark;
 import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
-import com.magpiehunt.magpie.Fragments.LandmarkFragment;
 import com.magpiehunt.magpie.R;
 
 import java.util.List;
@@ -32,15 +29,18 @@ public class LandmarkAdapter extends RecyclerView.Adapter<LandmarkAdapter.Landma
     private final String fragmentTag;
     private final Context context;
     private final CollectionLandmarksFragment fragment;
+    private CollectionLandmarksFragment.OnLandmarkSelectedListener listener;
+
 
     public List<Landmark> landmarkList;
     protected MagpieDatabase magpieDatabase;
 
-    public LandmarkAdapter(List<Landmark> landmarkList, String tag, Context context, CollectionLandmarksFragment fragment) {
+    public LandmarkAdapter(List<Landmark> landmarkList, String tag, Context context, CollectionLandmarksFragment fragment, CollectionLandmarksFragment.OnLandmarkSelectedListener listener) {
         this.landmarkList = landmarkList;
         this.fragmentTag = tag;
         this.context = context;
         this.fragment = fragment;
+        this.listener = listener;
 
     }//end DVC
 
@@ -120,7 +120,11 @@ public class LandmarkAdapter extends RecyclerView.Adapter<LandmarkAdapter.Landma
                 // TODO: implement click functionality
                 case R.id.landmarkCard:
                     log.d(TAG, "LandmarkClick: " + currentObject.getLandmarkName());
-                    startLandmark();
+                    listener.onLandmarkSelected(currentObject.getCID(), currentObject.getLID(),
+                            currentObject.getLandmarkName(), currentObject.getBadgeID(),
+                            currentObject.getLandmarkDescription(), currentObject.getLatitude(),
+                            currentObject.getLongitude(), currentObject.getPicID(),
+                            currentObject.getQRCode());
 
                     break;
                 default:
@@ -129,13 +133,7 @@ public class LandmarkAdapter extends RecyclerView.Adapter<LandmarkAdapter.Landma
         }// end onClick
 
         private void startLandmark() {
-            FragmentManager fragmentManager = fragment.getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            LandmarkFragment fragment = LandmarkFragment.newInstance(currentObject.getCID(), currentObject.getLID(), currentObject.getLandmarkName(), currentObject.getBadgeID(), currentObject.getLandmarkDescription(), currentObject.getLatitude(),
-                    currentObject.getLongitude(), currentObject.getPicID(), currentObject.getQRCode());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
+
 
         }
 

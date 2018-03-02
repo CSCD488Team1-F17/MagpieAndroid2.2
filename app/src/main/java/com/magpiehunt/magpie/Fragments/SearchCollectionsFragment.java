@@ -97,7 +97,7 @@ public class SearchCollectionsFragment extends Fragment {
         Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
         toolbar.setTitle("Add a Collection");
 
-        //init list
+        //init landmark_list
         mRecyclerView = rootView.findViewById(R.id.searchView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         setRecyclerViewLayoutManager();
