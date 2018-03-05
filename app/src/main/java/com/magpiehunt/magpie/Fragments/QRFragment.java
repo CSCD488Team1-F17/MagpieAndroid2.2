@@ -1,14 +1,27 @@
 package com.magpiehunt.magpie.Fragments;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.zxing.Result;
 import com.magpiehunt.magpie.R;
+
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
 /**
@@ -19,7 +32,11 @@ import com.magpiehunt.magpie.R;
  * Use the {@link QRFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class QRFragment extends Fragment {
+public class QRFragment extends Fragment implements ZXingScannerView.ResultHandler{
+    private boolean status = false;
+    private Button scanButton;
+    private ZXingScannerView scanner;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -50,13 +67,70 @@ public class QRFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_qr, container, false);
+        View view = inflater.inflate(R.layout.fragment_qr, container, false);
+        Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
+        toolbar.setTitle("QR Scanner");
+        //scanButton = view.findViewById(R.id.scan_button);
+        scanner = view.findViewById(R.id.qr_scanner);
+        if(checkQRPermission()) {
+            scanner.setResultHandler(this);
+            scanner.startCamera();
+        }
+        else{
+            Toast.makeText(getContext(), "Camera permissions required to use QR functionality.", Toast.LENGTH_SHORT).show();
+            //go back to previous window?
+        }
+        return view;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        scanner.stopCamera();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(scanner != null){
+            scanner.startCamera();
+        }
+    }
+
+    public boolean checkQRPermission() {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        else
+        {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            }, PackageManager.PERMISSION_GRANTED);
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -81,6 +155,17 @@ public class QRFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override//handle result from qr scanner
+    public void handleResult(Result result) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("QR Code Found!");
+        builder.setMessage(result.getText());
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        //later change to sending code to other activity.
     }
 
     /**
