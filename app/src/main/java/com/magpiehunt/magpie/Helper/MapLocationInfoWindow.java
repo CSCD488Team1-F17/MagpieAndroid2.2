@@ -16,7 +16,7 @@ import com.magpiehunt.magpie.R;
 public class MapLocationInfoWindow implements GoogleMap.InfoWindowAdapter {
     private Context context;
 
-    public MapLocationInfoWindow(Context ctx){
+    public MapLocationInfoWindow(Context ctx) {
         context = ctx;
     }
 
@@ -27,7 +27,7 @@ public class MapLocationInfoWindow implements GoogleMap.InfoWindowAdapter {
 
     @Override
     public View getInfoContents(Marker marker) {
-        View view = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+        View view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.map_location_info_window, null);
         TextView title = view.findViewById(R.id.info_window_name);
         TextView distance = view.findViewById(R.id.info_window_distance);

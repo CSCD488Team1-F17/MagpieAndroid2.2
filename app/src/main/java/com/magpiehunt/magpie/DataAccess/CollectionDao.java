@@ -19,16 +19,15 @@ public interface CollectionDao {
 
     @Query("SELECT * FROM Collections WHERE Available = 1")
     List<Collection> getCollections();
+
     @Query("SELECT * FROM Collections WHERE CID = :cid")
     Collection getCollection(int cid);
+
     @Update
     void updateCollection(Collection... collections);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addCollection(Collection... collections);
-
-
-
 
 
 }

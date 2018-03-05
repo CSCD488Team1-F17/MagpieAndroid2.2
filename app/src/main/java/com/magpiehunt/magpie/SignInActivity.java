@@ -26,14 +26,12 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "SignInActivity";
     static final int RC_SIGN_IN = 123;
-    private FirebaseUser user;
-
+    private static final String TAG = "SignInActivity";
     List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
-
     SignInButton mSignInButton;
+    private FirebaseUser user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

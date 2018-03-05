@@ -9,19 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableLayoutListenerAdapter;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.github.aakira.expandablelayout.Utils;
 import com.magpiehunt.magpie.Entities.Collection;
+import com.magpiehunt.magpie.Fragments.CollectionFragment;
 import com.magpiehunt.magpie.R;
 
 import java.util.List;
 
+import static com.loopj.android.http.AsyncHttpClient.log;
+
 /**
  * Created by Blake Impecoven on 1/22/18.
-*/
+ */
 public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.CollectionHolder> {
 
     private static final String TAG = "CollectionAdapter";
@@ -30,16 +34,21 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     private List<Collection> collectionList;
     private String fragmentTag;
     private SparseBooleanArray expandState;
+    private android.support.v4.app.Fragment fragment;
+    private CollectionFragment.OnCollectionSelectedListener listener;
 
-    public CollectionAdapter(List<Collection> collectionList, String fragmentTag, Context context) {
+    public CollectionAdapter(List<Collection> collectionList, String fragmentTag, Context context, android.support.v4.app.Fragment fragment, CollectionFragment.OnCollectionSelectedListener listener) {
         this.collectionList = collectionList;
         this.fragmentTag = fragmentTag;
         this.context = context;
+        this.fragment = fragment;
         this.expandState = new SparseBooleanArray();
+        this.listener = listener;
         for (int x = 0; x < collectionList.size(); x++) {
             expandState.append(x, false);
         }//end for
     }//end DVC
+
     // Create new views (invoked by the layout manager)
     @Override
     public CollectionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -77,7 +86,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             }
         });
 
-        holder.expandArrow.setRotation(expandState.get(position)?180f:0f);
+        holder.expandArrow.setRotation(expandState.get(position) ? 180f : 0f);
         holder.setListeners();
 
         holder.setExpandedData(position);
@@ -89,6 +98,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         animator.setInterpolator(Utils.createInterpolator(Utils.LINEAR_INTERPOLATOR));
         return animator;
     }
+
     @Override
     public int getItemCount() {
         return collectionList.size();
@@ -97,18 +107,16 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     public class CollectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private static final String TAG = "CollectionHolder";
-
+        // fields for CardView (Expanded)
+        ExpandableLinearLayout expandableLinearLayout;
         private int position;
-
         // We may need to add more fields here for expanding of the cards.
         // fields for CardView (Condensed)
         private TextView collectionTitle;
         private TextView collectionAbbreviation;
         private ImageView imgThumb, expandArrow;
         private Collection currentObject;
-
-        // fields for CardView (Expanded)
-        ExpandableLinearLayout expandableLinearLayout;
+        private LinearLayout card;
         private TextView description;
         private TextView rating;
 
@@ -118,7 +126,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             this.collectionAbbreviation = itemView.findViewById(R.id.tvAbbreviation_collection);
             this.imgThumb = itemView.findViewById(R.id.img_thumb_collection);
             this.expandArrow = itemView.findViewById(R.id.expandArrow_collection);
-
+            this.card = itemView.findViewById(R.id.card_collection);
             // expanded views
             expandableLinearLayout = itemView.findViewById(R.id.expandableLayout_collection);
             this.description = itemView.findViewById(R.id.dropdown_description_collection);
@@ -138,18 +146,27 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
         public void setListeners() {
             expandArrow.setOnClickListener(CollectionHolder.this);
+            card.setOnClickListener(CollectionHolder.this);
             //TODO: change this listener to respond to a click of the whole card?
             //imgThumb.setOnClickListener(CollectionHolder.this);
         }//end setListeners
+
         void setExpandedData(int position) {
             Collection currentObject = collectionList.get(position);
 
             this.description.setText(currentObject.getDescription());
 //            this.rating.setText(currentObject.getRating());
         }//end setExpandedData
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+
+                case R.id.card_collection:
+                    log.d(TAG, "CollectionClick: " + currentObject.getName());
+                    listener.onCollectionSelected(currentObject.getCID(), currentObject.getName());
+                    break;
+
                 case R.id.expandArrow_collection:
                     this.expandableLinearLayout.toggle();
 
@@ -157,6 +174,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
                 case R.id.img_thumb_collection:
                     //TODO: implement opening the collection (view landmarks)
+
                     break;
 
                 //TODO: implement deletion below.
@@ -169,6 +187,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
                     break;
             }//end switch
         }//end onClick
+
+        private void startCollectionLandmarks() {
+           // AppCompatActivity activity = (AppCompatActivity )context;
+            //activity.changeFragments()
+
+        }
 
         // will be used at some point.
         //TODO: decide on gesture or button removal.
@@ -185,14 +209,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
         }//end addItem
 
     }//end inner class: CollectionHolder
-
-
-
-
-
-
-
-
 
 
 }//end CollectionAdapter

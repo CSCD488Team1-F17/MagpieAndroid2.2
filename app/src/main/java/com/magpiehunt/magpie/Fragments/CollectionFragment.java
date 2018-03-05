@@ -1,7 +1,6 @@
 package com.magpiehunt.magpie.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,6 @@ import android.widget.Button;
 import com.magpiehunt.magpie.Adapters.CollectionAdapter;
 import com.magpiehunt.magpie.Database.MagpieDatabase;
 import com.magpiehunt.magpie.Entities.Collection;
-import com.magpiehunt.magpie.MainActivity;
 import com.magpiehunt.magpie.R;
 
 import java.util.ArrayList;
@@ -28,33 +26,28 @@ import java.util.List;
 public class CollectionFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "CollectionFragment";
-
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     protected RecyclerView mRecyclerView;
     protected CollectionAdapter mModelAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected List<Collection> mDataset;
     protected MagpieDatabase magpieDatabase;
-
     private Button addCollectionBtn;
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnCollectionSelectedListener mListener;
 
     public CollectionFragment() {
         // Required empty public constructor
     }
 
 
-//    // TODO: Rename and change types and number of parameters
+    //    // TODO: Rename and change types and number of parameters
     public static CollectionFragment newInstance() {
         CollectionFragment fragment = new CollectionFragment();
         Bundle args = new Bundle();
@@ -78,6 +71,7 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
 
         Toolbar toolbar = getActivity().findViewById(R.id.my_toolbar);
         toolbar.setTitle("My Collections");
+
         this.addCollectionBtn = rootView.findViewById(R.id.button_addCollection_collection);
         addCollectionBtn.setOnClickListener(CollectionFragment.this);
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
@@ -88,7 +82,7 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
 
         MagpieDatabase db = MagpieDatabase.getMagpieDatabase(getActivity());
         //List<Collection> collections = db.collectionDao().getCollections();
-        mModelAdapter = new CollectionAdapter(mDataset, CollectionFragment.TAG, this.getActivity());
+        mModelAdapter = new CollectionAdapter(mDataset, CollectionFragment.TAG, this.getActivity(), CollectionFragment.this, this.mListener);
         // Set the adapter for RecyclerView.
         mRecyclerView.setAdapter(mModelAdapter);
 
@@ -131,11 +125,13 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+
+        //TODO implement this before release, just for testing
+        if (context instanceof OnCollectionSelectedListener) {
+            mListener = (OnCollectionSelectedListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnCollectionSelectedListener");
         }
     }
 
@@ -167,20 +163,6 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
         fragmentTransaction.commit();
         BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.navigation);
         bottomNavigationView.setSelectedItemId(R.id.menu_search);
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 
     // TODO: Replace the test data within this with data from room DB
@@ -230,4 +212,20 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
         mDataset.add(testCollection);
 */
     }//end
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    //TODO implement this before release, just for testing
+    public interface OnCollectionSelectedListener {
+        // TODO: Update argument type and name
+        void onCollectionSelected(int cid, String name);
+    }
 }

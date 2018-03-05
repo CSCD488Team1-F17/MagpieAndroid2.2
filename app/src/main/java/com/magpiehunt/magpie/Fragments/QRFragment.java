@@ -52,7 +52,7 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
         // Required empty public constructor
     }
 
-    
+
     // TODO: Rename and change types and number of parameters
     public static QRFragment newInstance() {
         QRFragment fragment = new QRFragment();

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp">
 
     <LinearLayout
+        android:id="@+id/landmarkCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorMagpieWhite"
@@ -18,7 +17,7 @@
             android:layout_height="60dp"
             android:layout_margin="7dp"
             android:layout_weight="2"
-            android:src="@drawable/magpie_test_cardview_collectionimage"/>
+            android:src="@drawable/magpie_test_cardview_collectionimage" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -50,7 +49,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginBottom="5dp"
-                    android:src="@drawable/clock"/>
+                    android:src="@drawable/clock" />
 
                 <TextView
                     android:id="@+id/landmarkTime"
@@ -60,7 +59,7 @@
                     android:text="14"
                     android:textSize="12sp"
                     android:gravity="right|top"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -109,9 +108,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_gravity="right"
-                    android:src="@drawable/map_pin"/>
+                    android:src="@drawable/map_pin" />
 
                 <TextView
                     android:id="@+id/landmarkMiles"
@@ -121,7 +120,7 @@
                     android:text=".84"
                     android:textSize="12sp"
                     android:gravity="left|top"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"

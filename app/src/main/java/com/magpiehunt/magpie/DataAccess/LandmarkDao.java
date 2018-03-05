@@ -19,6 +19,9 @@ public interface LandmarkDao {
     @Query("SELECT * FROM Landmarks WHERE CID = :cid")
     List<Landmark> getLandmarks(int cid);
 
+    @Query("SELECT count(*) FROM Landmarks WHERE CID = :cid")
+    int numLandmarks(int cid);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addLandmark(Landmark... landmarks);
 

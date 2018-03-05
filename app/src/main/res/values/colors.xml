@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--it says the xmlns thing is redundant but it is necessary -->
 <resources>
     <!-- Default Colors -->
     <color name="colorPrimary">#3F51B5</color>

@@ -16,7 +16,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_weight="4"
-        android:layout_marginBottom="3dp"/>
+        android:layout_marginBottom="3dp" />
 
     <LinearLayout
         android:id="@+id/collection_expand_row1"
@@ -40,14 +40,14 @@
                 android:layout_weight="2"
                 android:gravity="right|center"
                 android:src="@drawable/clock"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true" />
 
             <TextView
                 android:id="@+id/collectionTime"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="2.5"
+                android:text="null"
                 android:textColor="@color/colorMagpieBlack"
                 android:textSize="14sp"
                 android:gravity="center"
@@ -61,7 +61,7 @@
                 android:text="HR"
                 android:textColor="@color/colorMagpieLightGray"
                 android:textSize="14sp"
-                app:layout_constraintLeft_toRightOf="@id/collectionTime"/>
+                app:layout_constraintLeft_toRightOf="@id/collectionTime" />
 
         </LinearLayout>
 
@@ -78,18 +78,18 @@
                 android:layout_weight="2"
                 android:gravity="right|center"
                 android:src="@drawable/collection_expanded_distance"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true" />
 
             <TextView
                 android:id="@+id/collectionDistance"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="1.9"
+                android:text="null"
                 android:textColor="@color/colorMagpieBlack"
                 android:textSize="14sp"
                 android:gravity="center"
-                app:layout_constraintLeft_toRightOf="@id/imageDistance"/>
+                app:layout_constraintLeft_toRightOf="@id/imageDistance" />
 
             <TextView
                 android:layout_width="0dp"
@@ -99,7 +99,7 @@
                 android:text="MI"
                 android:textColor="@color/colorMagpieLightGray"
                 android:textSize="14sp"
-                app:layout_constraintLeft_toRightOf="@id/collectionDistance"/>
+                app:layout_constraintLeft_toRightOf="@id/collectionDistance" />
 
         </LinearLayout>
 
@@ -117,18 +117,18 @@
                 android:layout_weight="1.5"
                 android:gravity="right|center"
                 android:src="@drawable/collection_expanded_badges"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true" />
 
             <TextView
                 android:id="@+id/collectionBadges"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="14"
+                android:text="null"
                 android:textColor="@color/colorMagpieBlack"
                 android:textSize="14sp"
                 android:gravity="center"
-                app:layout_constraintLeft_toRightOf="@id/collectionBadges"/>
+                app:layout_constraintLeft_toRightOf="@id/collectionBadges" />
 
             <TextView
                 android:layout_width="0dp"
@@ -138,7 +138,7 @@
                 android:text="BADGES"
                 android:textColor="@color/colorMagpieLightGray"
                 android:textSize="14sp"
-                app:layout_constraintLeft_toRightOf="@id/collectionBadges"/>
+                app:layout_constraintLeft_toRightOf="@id/collectionBadges" />
 
         </LinearLayout>
 
@@ -166,28 +166,28 @@
                 android:layout_weight="1.5"
                 android:gravity="right|center"
                 android:src="@drawable/collection_expanded_reward"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true" />
 
             <TextView
                 android:id="@+id/collectionReward"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="$5"
+                android:text="$$"
                 android:textColor="@color/colorMagpieBlack"
                 android:textSize="14sp"
                 android:gravity="center"
-                app:layout_constraintLeft_toRightOf="@id/imageReward"/>
+                app:layout_constraintLeft_toRightOf="@id/imageReward" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="9.5"
                 android:gravity="left|center"
-                android:text="GIFT CERTIFICATE"
+                android:text="null"
                 android:textColor="@color/colorMagpieLightGray"
                 android:textSize="14sp"
-                app:layout_constraintLeft_toRightOf="@id/collectionReward"/>
+                app:layout_constraintLeft_toRightOf="@id/collectionReward" />
 
         </LinearLayout>
 
@@ -206,18 +206,18 @@
                 android:layout_weight="1.5"
                 android:gravity="right|center"
                 android:src="@drawable/collection_expanded_age"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true" />
 
             <TextView
                 android:id="@+id/collectionAge"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="12+"
+                android:text="null"
                 android:textColor="@color/colorMagpieBlack"
                 android:textSize="14sp"
                 android:gravity="center"
-                app:layout_constraintLeft_toRightOf="@id/imageAge"/>
+                app:layout_constraintLeft_toRightOf="@id/imageAge" />
 
             <TextView
                 android:layout_width="0dp"
@@ -227,7 +227,7 @@
                 android:text="YRS"
                 android:textColor="@color/colorMagpieLightGray"
                 android:textSize="14sp"
-                app:layout_constraintLeft_toRightOf="@id/collectionAge"/>
+                app:layout_constraintLeft_toRightOf="@id/collectionAge" />
 
         </LinearLayout>
 
