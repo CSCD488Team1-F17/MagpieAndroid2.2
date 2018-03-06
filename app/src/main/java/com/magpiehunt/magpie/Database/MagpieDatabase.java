@@ -13,7 +13,7 @@ import com.magpiehunt.magpie.Entities.Landmark;
 /**
  * Created by James on 1/12/2018.
  */
-@Database(entities = {Collection.class, Landmark.class}, version = 1)
+@Database(entities = {Collection.class, Landmark.class}, version = 4)
 
 public abstract class MagpieDatabase extends RoomDatabase {
 
@@ -25,6 +25,7 @@ public abstract class MagpieDatabase extends RoomDatabase {
                     MagpieDatabase.class, "MagpieDB")
                     //remove the next line before production - queries must be run on worker threads
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration() //TODO remove before release and implement proper migrations, this is just for testing
                     .build();
         }
         return INSTANCE;
@@ -37,4 +38,7 @@ public abstract class MagpieDatabase extends RoomDatabase {
     public abstract CollectionDao collectionDao();
 
     public abstract LandmarkDao landmarkDao();
+
+
+
 }

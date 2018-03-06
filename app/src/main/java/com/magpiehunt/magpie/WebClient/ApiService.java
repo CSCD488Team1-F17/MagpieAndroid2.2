@@ -5,6 +5,7 @@ import com.magpiehunt.magpie.Entities.Landmark;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -20,5 +21,11 @@ public interface ApiService {
 
     @GET("landmark/{cid}")
     Call<List<Landmark>> getLandmarks(@Path("cid") Integer cid);
+
+    @GET("landmarkimages/{lid}")
+    Call<ResponseBody> landmarkImageDownload(@Path("lid") Integer lid);
+
+    @GET("https://sites.ewu.edu/oktoberfest/files/2017/05/JFKLibrary.jpg")
+    Call<ResponseBody> downloadTestImage();
 
 }

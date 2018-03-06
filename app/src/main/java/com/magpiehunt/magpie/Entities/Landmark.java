@@ -1,5 +1,6 @@
 package com.magpiehunt.magpie.Entities;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
@@ -7,10 +8,12 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 /**
  * Created by James on 1/10/2018.
  */
-
+@Parcel
 @Entity(tableName = "Landmarks", foreignKeys = @ForeignKey(
         entity = Collection.class,
         parentColumns = "cID",
@@ -20,35 +23,53 @@ public class Landmark {
     @SerializedName("LID")
     @Expose
     @PrimaryKey
-    private int lID;
+    protected int lID;
     @SerializedName("CID")
     @Expose
-    private int cID;
+    protected int cID;
     @SerializedName("LandmarkName")
     @Expose
-    private String LandmarkName;
+    protected String LandmarkName;
     @SerializedName("Latitude")
     @Expose
-    private double latitude;
+    protected double latitude;
     @SerializedName("Longitude")
     @Expose
-    private double longitude;
+    protected double longitude;
     @SerializedName("LandmarkDescription")
     @Expose
-    private String landmarkDescription;
+    protected String landmarkDescription;
     @SerializedName("QRCode")
     @Expose
-    private String qRCode;
+    protected String qRCode;
     @SerializedName("PicID")
     @Expose
-    private int picID;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    protected byte[] picID;
     @SerializedName("BadgeID")
     @Expose
-    private int badgeID;
+    protected int badgeID;
     @SerializedName("OrderNum")
     @Expose
-    private int orderNum;
+    protected int orderNum;
+    @SerializedName("Subtitle")
+    @Expose
+    protected String subtitle;
 
+    //@Ignore
+    //Bitmap img;
+
+    //@ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+   // protected byte[] img;
+
+    /*public byte[] getImg()
+    {
+        return img;
+    }
+    public void setImg(byte[] img)
+    {
+        this.img = img;
+    }*/
 
     public int getLID() {
         return lID;
@@ -106,11 +127,11 @@ public class Landmark {
         this.qRCode = QRCode;
     }
 
-    public int getPicID() {
+    public byte[] getPicID() {
         return picID;
     }
 
-    public void setPicID(int picID) {
+    public void setPicID(byte[] picID) {
         this.picID = picID;
     }
 
@@ -128,6 +149,14 @@ public class Landmark {
 
     public void setOrderNum(int orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
 }

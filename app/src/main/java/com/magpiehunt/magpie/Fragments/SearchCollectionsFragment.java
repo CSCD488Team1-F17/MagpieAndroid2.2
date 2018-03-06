@@ -114,7 +114,6 @@ public class SearchCollectionsFragment extends Fragment {
                 // Set the adapter for RecyclerView.
                 mRecyclerView.setAdapter(mModelAdapter);
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
             }
 
             @Override
@@ -128,7 +127,6 @@ public class SearchCollectionsFragment extends Fragment {
     }
 
 
-    //This method adds a collection to magpieDB as well as any associated landmarks
 
 
     public void setRecyclerViewLayoutManager() {

@@ -120,11 +120,7 @@ public class LandmarkAdapter extends RecyclerView.Adapter<LandmarkAdapter.Landma
                 // TODO: implement click functionality
                 case R.id.landmarkCard:
                     log.d(TAG, "LandmarkClick: " + currentObject.getLandmarkName());
-                    listener.onLandmarkSelected(currentObject.getCID(), currentObject.getLID(),
-                            currentObject.getLandmarkName(), currentObject.getBadgeID(),
-                            currentObject.getLandmarkDescription(), currentObject.getLatitude(),
-                            currentObject.getLongitude(), currentObject.getPicID(),
-                            currentObject.getQRCode());
+                    listener.onLandmarkSelected(currentObject);
 
                     break;
                 default:
