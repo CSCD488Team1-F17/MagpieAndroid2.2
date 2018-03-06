@@ -1,6 +1,7 @@
 package com.magpiehunt.magpie.Fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,19 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.magpiehunt.magpie.Entities.Landmark;
 import com.magpiehunt.magpie.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LandmarkFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LandmarkFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class LandmarkFragment extends Fragment {
+import org.parceler.Parcels;
+
+
+public class LandmarkFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -34,6 +33,9 @@ public class LandmarkFragment extends Fragment {
     private static final String LONGITUDE = "Longitude";
     private static final String PIC_ID = "PicID";
     private static final String QR_CODE = "QRCode";
+    private static final String SUBTITLE = "Subtitle";
+    private static final String IMAGE = "Image";
+
 
     public static String TAG = "LandmarkFragment";
 
@@ -49,12 +51,18 @@ public class LandmarkFragment extends Fragment {
     private double longitude;
     private int picID;
     private String qrCode;
-    private OnFragmentInteractionListener mListener;
+    private String subtitle;
+    private Bitmap img;
+    private OnLandmarkMapButtonListener mListener;
 
     //Views
     private TextView landmarkNameTv;
     private TextView descriptionTv;
+    private TextView subtitleTv;
+    private ImageView landmarkIV;
+    private Button mapBtn;
 
+    private Landmark mLandmark;
 
     public LandmarkFragment() {
         // Required empty public constructor
@@ -71,7 +79,8 @@ public class LandmarkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            cid = getArguments().getInt(CID);
+            mLandmark = Parcels.unwrap(getArguments().getParcelable("landmark"));
+           /* cid = getArguments().getInt(CID);
             lid = getArguments().getInt(LID);
             landmarkName = getArguments().getString(LANDMARK_NAME);
             landmarkDescription = getArguments().getString(LANDMARK_DESCRIPTION);
@@ -80,6 +89,7 @@ public class LandmarkFragment extends Fragment {
             longitude = getArguments().getDouble(LONGITUDE);
             picID = getArguments().getInt(PIC_ID);
             qrCode = getArguments().getString(QR_CODE);
+            subtitle = getArguments().getString(SUBTITLE);*/
 
 
         }
@@ -98,12 +108,21 @@ public class LandmarkFragment extends Fragment {
         }
         this.landmarkNameTv = rootView.findViewById(R.id.landmarkName);
         this.descriptionTv = rootView.findViewById(R.id.landmarkDescription);
+        this.subtitleTv = rootView.findViewById(R.id.landmarkSubTitle);
+        this.landmarkIV = rootView.findViewById(R.id.landmarkImage);
+        this.mapBtn = rootView.findViewById(R.id.mapButton);
+        this.mapBtn.setOnClickListener(this);
 
-        landmarkNameTv.setText(this.landmarkName);
-        descriptionTv.setText(this.landmarkDescription);
+        landmarkNameTv.setText(this.mLandmark.getLandmarkName());
+        descriptionTv.setText(this.mLandmark.getLandmarkDescription());
+        subtitleTv.setText(this.mLandmark.getSubtitle());
 
-        //set views
-        //change text
+
+        //Bitmap img = BitmapFactory.decodeByteArray(mLandmark.getPicID(), 0, mLandmark.getPicID().length);
+        //landmarkIV.setImageBitmap(img);
+
+        //ImageDownloader imageDownloader = new ImageDownloader();
+        //imageDownloader.setImage(landmarkImage);
 
 
         return rootView;
@@ -122,12 +141,12 @@ public class LandmarkFragment extends Fragment {
         super.onAttach(context);
         //TODO implement this before release, just for testing
 
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnLandmarkMapButtonListener) {
+            mListener = (OnLandmarkMapButtonListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+                    + " must implement OnLandmarkMapButtonListener");
+        }
     }
 
     @Override
@@ -136,6 +155,14 @@ public class LandmarkFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.mapButton:
+                mListener.OnLandmarkMapSelected(this.mLandmark);
+                break;
+        }
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -148,8 +175,9 @@ public class LandmarkFragment extends Fragment {
      */
     //TODO implement this before release, just for testing
 
-    public interface OnFragmentInteractionListener {
+    public interface OnLandmarkMapButtonListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void OnLandmarkMapSelected(Landmark landmark);
     }
+
 }

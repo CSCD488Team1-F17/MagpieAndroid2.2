@@ -23,6 +23,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.magpiehunt.magpie.Entities.Landmark;
 import com.magpiehunt.magpie.Fragments.CollectionFragment;
 import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
 import com.magpiehunt.magpie.Fragments.GoogleMapFragment;
@@ -31,12 +32,14 @@ import com.magpiehunt.magpie.Fragments.PrizesFragment;
 import com.magpiehunt.magpie.Fragments.QRFragment;
 import com.magpiehunt.magpie.Fragments.SearchCollectionsFragment;
 
+import org.parceler.Parcels;
+
 /**
  * Author:  Blake Impecoven
  * Date:    11/14/17.
  */
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnCollectionSelectedListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener, PrizesFragment.OnFragmentInteractionListener, CollectionLandmarksFragment.OnLandmarkSelectedListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnCollectionSelectedListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener, PrizesFragment.OnFragmentInteractionListener, CollectionLandmarksFragment.OnLandmarkSelectedListener, LandmarkFragment.OnLandmarkMapButtonListener {
 
     private static final String TAG = "MainActivity";
     private static final int RC_SIGN_IN = 123;
@@ -250,11 +253,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     @Override
-    public void onLandmarkSelected(int cid, int lid, String landmarkName, int badgeID, String landmarkDescription, double latitude, double longitude, int picID, String qrCode) {
+    public void onLandmarkSelected(Landmark l) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Bundle args = new Bundle();
-        args.putInt("CID", cid);
+        /*args.putInt("CID", cid);
         args.putInt("LID", lid);
         args.putString("LandmarkName", landmarkName);
         args.putInt("BadgeID", badgeID);
@@ -263,10 +266,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         args.putDouble("Longitude", longitude);
         args.putInt("PicID", picID);
         args.putString("QRCode", qrCode);
+        args.putString("Subtitle", subtitle);*/
+        args.putParcelable("landmark", Parcels.wrap(l));
+
+        //TODO bundle image and send to frag
         LandmarkFragment fragment = LandmarkFragment.newInstance(args);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void OnLandmarkMapSelected(Landmark landmark) {
+
     }
    /* @Override
     public void onStart() {

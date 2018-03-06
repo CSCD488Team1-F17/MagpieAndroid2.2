@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c2ad6ddcdc06ddccf5471be67a76f0da",
+    "identityHash": "953ec776151962da4b5d44f34dc6f14e",
     "entities": [
       {
         "tableName": "Collections",
@@ -86,7 +86,7 @@
       },
       {
         "tableName": "Landmarks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lID` INTEGER NOT NULL, `cID` INTEGER NOT NULL, `LandmarkName` TEXT, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `landmarkDescription` TEXT, `qRCode` TEXT, `picID` INTEGER NOT NULL, `badgeID` INTEGER NOT NULL, `orderNum` INTEGER NOT NULL, PRIMARY KEY(`lID`), FOREIGN KEY(`cID`) REFERENCES `Collections`(`cID`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lID` INTEGER NOT NULL, `cID` INTEGER NOT NULL, `LandmarkName` TEXT, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `landmarkDescription` TEXT, `qRCode` TEXT, `picID` INTEGER NOT NULL, `badgeID` INTEGER NOT NULL, `orderNum` INTEGER NOT NULL, `subtitle` TEXT, PRIMARY KEY(`lID`), FOREIGN KEY(`cID`) REFERENCES `Collections`(`cID`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "lID",
@@ -147,6 +147,12 @@
             "columnName": "orderNum",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "subtitle",
+            "columnName": "subtitle",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -173,7 +179,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c2ad6ddcdc06ddccf5471be67a76f0da\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"953ec776151962da4b5d44f34dc6f14e\")"
     ]
   }
 }

@@ -18,6 +18,7 @@ import com.github.aakira.expandablelayout.Utils;
 import com.magpiehunt.magpie.Database.MagpieDatabase;
 import com.magpiehunt.magpie.Entities.Collection;
 import com.magpiehunt.magpie.Entities.Landmark;
+import com.magpiehunt.magpie.Helper.ImageDownloader;
 import com.magpiehunt.magpie.R;
 import com.magpiehunt.magpie.WebClient.ApiService;
 import com.magpiehunt.magpie.WebClient.ServiceGenerator;
@@ -215,7 +216,6 @@ public class SearchCollectionAdapter extends RecyclerView.Adapter<SearchCollecti
             final MagpieDatabase db = MagpieDatabase.getMagpieDatabase(context);
             db.collectionDao().addCollection(c);
             log.e(TAG, c.getName() + " added to MagpieDatabase");
-            List<Collection> l = db.collectionDao().getCollections();
             ApiService apiService = ServiceGenerator.createService(ApiService.class);
 
             Call<List<Landmark>> call = apiService.getLandmarks(c.getCID());
@@ -226,7 +226,9 @@ public class SearchCollectionAdapter extends RecyclerView.Adapter<SearchCollecti
                     List<Landmark> landmarks = response.body();
                     if (landmarks != null) {
                         for (Landmark l : landmarks) {
-                            db.landmarkDao().addLandmark(l);
+                            ImageDownloader imageDownloader = new ImageDownloader();
+                            Landmark li = imageDownloader.downloadImage(l);
+                            db.landmarkDao().addLandmark(li);
                             log.d(TAG, l.getLandmarkName() + " added to MagpieDatabase");
 
                         }

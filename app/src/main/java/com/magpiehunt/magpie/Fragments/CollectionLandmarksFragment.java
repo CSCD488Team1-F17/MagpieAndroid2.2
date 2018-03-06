@@ -137,6 +137,6 @@ public class CollectionLandmarksFragment extends Fragment {
     //TODO implement this before release, just for testing
     public interface OnLandmarkSelectedListener {
         // TODO: Update argument type and name
-        void onLandmarkSelected(int cid, int lid, String landmarkName, int badgeID, String landmarkDescription, double latitude, double longitude, int picID, String qrCode);
+        void onLandmarkSelected(Landmark l);
     }
 }

@@ -225,7 +225,6 @@ public class CollectionFragment extends Fragment implements View.OnClickListener
      */
     //TODO implement this before release, just for testing
     public interface OnCollectionSelectedListener {
-        // TODO: Update argument type and name
         void onCollectionSelected(int cid, String name);
     }
 }
