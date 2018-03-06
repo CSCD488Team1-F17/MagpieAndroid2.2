@@ -43,7 +43,6 @@ import java.util.List;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -64,15 +63,13 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
 
      */
         implements OnMapReadyCallback/*, LocationSource.OnLocationChangedListener*/ {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    //private static final String ARG_PARAM1 = "param1";
-    //private static final String ARG_PARAM2 = "param2";
 
     private final int PERMISSION_REQUEST = 1;
     //private bool hasPosition, mapActive;
-    public List<Landmark> landmarks;
+    //public List<Landmark> landmarks;
     GPSTracker gpsTracker;
+    private List<String> locTitles;
+    private List<LatLng> latLngs;
     private MenuItem addLocButton, saveLocButton;
     private float zoom;
     private MapLocationInfoWindow infoWindow;
@@ -83,36 +80,26 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     private OnFragmentInteractionListener mListener;
     private LatLng start = null;//curr loc
 
-    // TODO: Rename and change types of parameters
-    //private String mParam1;
-    //private String mParam2;
+    public GoogleMapFragment() {}
 
-    public GoogleMapFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * <p>
-     * param param1 Parameter 1.
-     * param param2 Parameter 2.
-     *
-     * @return A new instance of fragment GoogleMapFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static GoogleMapFragment newInstance() {
         GoogleMapFragment fragment = new GoogleMapFragment();
-        Bundle args = new Bundle();
         return fragment;
     }
 
-    //code copied from:
-    //https://stackoverflow.com/questions/8911356/whats-the-best-practice-to-round-a-float-to-2-decimals
-    private static float roundFloat(float d, int decimal) {
-        BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimal, BigDecimal.ROUND_HALF_UP);
-        return bd.floatValue();
+    public static GoogleMapFragment newInstance(List<Landmark> landmarkList){
+        GoogleMapFragment fragment = new GoogleMapFragment();
+        if(landmarkList != null && landmarkList.size() != 0)
+        {
+            Bundle args = new Bundle();
+            args.putInt("size", landmarkList.size());
+            for(int i = 0; i < landmarkList.size(); i++){
+                args.putDouble(Integer.toString(i) + "lat", landmarkList.get(i).getLatitude());
+                args.putDouble(Integer.toString(i) + "long", landmarkList.get(i).getLatitude());
+                args.putString(Integer.toString(i) + "title", landmarkList.get(i).getLandmarkName());
+            }
+        }
+        return fragment;
     }
 
     @Override
@@ -169,10 +156,6 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         }
 
         markerList = new ArrayList<Marker>();
-        if (getArguments() != null) {
-            //mParam1 = getArguments().getString(ARG_PARAM1);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         if (savedInstanceState != null) {
             //do stuff if saved
@@ -184,6 +167,15 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {// Inflate the layout for this fragment
+        if(savedInstanceState != null){
+            int numElements = savedInstanceState.getInt("size");
+            latLngs = new ArrayList<LatLng>();
+            for(int i = 0; i < numElements; i++){
+                latLngs.add(new LatLng(savedInstanceState.getDouble(Integer.toString(i) + "lat"),
+                        savedInstanceState.getDouble(Integer.toString(i) + "long")));
+                locTitles.add(Integer.toString(i) + "title");
+            }
+        }
         View v = inflater.inflate(R.layout.fragment_map, container, false);
         return v;
     }
@@ -252,16 +244,20 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
             gMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
         }
         if (checkLocationPermission()) {
-            Log.d("onResume OK", "");
             gpsTracker = new GPSTracker(getActivity());
             if (gpsTracker.canGetLocation()) {
                 start = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                 currLoc.setLatitude(start.latitude);
                 currLoc.setLongitude(start.longitude);
                 moveToLocation(currLoc);
-                double meters = 150;
-                double coef = meters * 0.0000089;
-                placeMarker(new LatLng(currLoc.getLatitude() + coef, currLoc.getLongitude()), "Test Marker");
+                //double meters = 150;
+                //double coef = meters * 0.0000089;
+                //placeMarker(new LatLng(currLoc.getLatitude() + coef, currLoc.getLongitude()), "Test Marker");
+                if(latLngs != null){
+                    for(int i = 0; i < latLngs.size(); i++){
+                        placeMarker(latLngs.get(i), locTitles.get(i));
+                    }
+                }
             } else {
                 Toast.makeText(getActivity(), "Permissions required to proceed.", Toast.LENGTH_SHORT).show();
                 //finish();//do something
@@ -327,7 +323,6 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     public void onDetach() {
         super.onDetach();
         mListener = null;
-
     }
     /*public void OnViewCollectionListener(){
         //public void on
@@ -336,16 +331,16 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     //try using this to get the fragment
     //getFragmentManager().findFragmentById(R.id.google_map_fragment);
     //and then call this function with required landmarks to display data
-    public void displayCollection(List<Landmark> newCollection) {
+    /*public void displayCollection(List<Landmark> newCollection) {
         landmarks = newCollection;
         if (gMap != null) {
             for (Landmark l : landmarks) {
                 showLandmark(l);
             }
         }
-    }
+    }//*/
 
-    //helper functions==========================
+    //=======================helper functions==========================
     private void showLandmark(Landmark landmark) {
         MarkerOptions opt = new MarkerOptions();
         opt.position(new LatLng(landmark.getLatitude(), landmark.getLongitude()));
@@ -392,6 +387,13 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coords, 14));
     }
 
+    private static float roundFloat(float d, int decimal)//code copied from: https://stackoverflow.com/questions/8911356/whats-the-best-practice-to-round-a-float-to-2-decimals
+    {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimal, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -403,7 +405,6 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }//*/
 }

@@ -1,48 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/landmark_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.magpiehunt.magpie.MainActivity">
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
-
-    </FrameLayout>
+    tools:context="com.magpiehunt.magpie.Fragments.LandmarkContainerFragment">
 
     <android.support.design.widget.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/navigation"
+        android:id="@+id/landmark_nav"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="end"
-        app:itemBackground="@color/colorMagpieWhite"
-        app:itemIconTint="@drawable/selector_bottombar_item"
-        app:itemTextColor="@drawable/selector_bottombar_item"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:itemBackground="@color/fui_transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/landmark_nav_bar" />
 
-        app:menu="@menu/bottom_nav_items" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+    <!--android.support.v7.widget.Toolbar
+        android:id="@+id/nav_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/background_color"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextAppearance="@style/Toolbar.TitleText"
-        app:title="Collections" />
+        app:title="Collections"
+        app:titleTextAppearance="@style/Toolbar.TitleText" /-->
+
+    <FrameLayout
+        android:id="@+id/location_fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/landmark_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

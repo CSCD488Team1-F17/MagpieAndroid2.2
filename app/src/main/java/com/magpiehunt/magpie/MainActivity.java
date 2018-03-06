@@ -27,6 +27,7 @@ import com.magpiehunt.magpie.Entities.Landmark;
 import com.magpiehunt.magpie.Fragments.CollectionFragment;
 import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
 import com.magpiehunt.magpie.Fragments.GoogleMapFragment;
+import com.magpiehunt.magpie.Fragments.LandmarkContainerFragment;
 import com.magpiehunt.magpie.Fragments.LandmarkFragment;
 import com.magpiehunt.magpie.Fragments.PrizesFragment;
 import com.magpiehunt.magpie.Fragments.QRFragment;
@@ -39,7 +40,9 @@ import org.parceler.Parcels;
  * Date:    11/14/17.
  */
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnCollectionSelectedListener, GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener, PrizesFragment.OnFragmentInteractionListener, CollectionLandmarksFragment.OnLandmarkSelectedListener, LandmarkFragment.OnLandmarkMapButtonListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnCollectionSelectedListener,
+        GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener, PrizesFragment.OnFragmentInteractionListener,
+        CollectionLandmarksFragment.OnLandmarkSelectedListener, LandmarkFragment.OnLandmarkMapButtonListener, LandmarkContainerFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
     private static final int RC_SIGN_IN = 123;
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         Fragment fragment = null;
                         switch (item.getItemId()) {
                             case R.id.menu_map:
-                                fragment = GoogleMapFragment.newInstance();
+                                fragment = LandmarkContainerFragment.newInstance();//GoogleMapFragment.newInstance();
                                 break;
                             case R.id.menu_qr:
                                 fragment = QRFragment.newInstance();
