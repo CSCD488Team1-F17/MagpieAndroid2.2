@@ -71,7 +71,7 @@ public class LandmarkContainerFragment extends Fragment implements GoogleMapFrag
                         Fragment fragment = null;
                         switch (item.getItemId()) {
                             case R.id.nav_menu_list:
-                                fragment = null;
+                                fragment = LandmarkListFragment.newInstance(new Bundle());
                                 //fragment = LandmarkContainerFragment.newInstance();//GoogleMapFragment.newInstance();
                                 break;
                             case R.id.nav_menu_map:
@@ -86,7 +86,7 @@ public class LandmarkContainerFragment extends Fragment implements GoogleMapFrag
                         return true;
                     }
                 });
-        changeFragments(GoogleMapFragment.newInstance());
+        changeFragments(LandmarkListFragment.newInstance(new Bundle()));
         return view;
     }
 
