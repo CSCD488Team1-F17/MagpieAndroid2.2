@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.magpiehunt.magpie.Database.MagpieDatabase;
 import com.magpiehunt.magpie.Entities.Landmark;
-import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
+import com.magpiehunt.magpie.Fragments.LandmarkListFragment;
 import com.magpiehunt.magpie.R;
 
 import java.util.List;
@@ -28,14 +28,14 @@ public class LandmarkAdapter extends RecyclerView.Adapter<LandmarkAdapter.Landma
     private static final String TAG = "LandmarkAdapter";
     private final String fragmentTag;
     private final Context context;
-    private final CollectionLandmarksFragment fragment;
-    private CollectionLandmarksFragment.OnLandmarkSelectedListener listener;
+    private final LandmarkListFragment fragment;
+    private LandmarkListFragment.OnLandmarkSelectedListener listener;
 
 
     public List<Landmark> landmarkList;
     protected MagpieDatabase magpieDatabase;
 
-    public LandmarkAdapter(List<Landmark> landmarkList, String tag, Context context, CollectionLandmarksFragment fragment, CollectionLandmarksFragment.OnLandmarkSelectedListener listener) {
+    public LandmarkAdapter(List<Landmark> landmarkList, String tag, Context context, LandmarkListFragment fragment, LandmarkListFragment.OnLandmarkSelectedListener listener) {
         this.landmarkList = landmarkList;
         this.fragmentTag = tag;
         this.context = context;

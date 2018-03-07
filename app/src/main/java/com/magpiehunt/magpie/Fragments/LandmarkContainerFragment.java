@@ -74,9 +74,6 @@ public class LandmarkContainerFragment extends Fragment implements GoogleMapFrag
                                 fragment = null;
                                 //fragment = LandmarkContainerFragment.newInstance();//GoogleMapFragment.newInstance();
                                 break;
-                            case R.id.nav_menu_grid:
-                                fragment = null;//QRFragment.newInstance();
-                                break;
                             case R.id.nav_menu_map:
                                 fragment = GoogleMapFragment.newInstance();
                                 break;

@@ -29,6 +29,7 @@ import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
 import com.magpiehunt.magpie.Fragments.GoogleMapFragment;
 import com.magpiehunt.magpie.Fragments.LandmarkContainerFragment;
 import com.magpiehunt.magpie.Fragments.LandmarkFragment;
+import com.magpiehunt.magpie.Fragments.LandmarkListFragment;
 import com.magpiehunt.magpie.Fragments.PrizesFragment;
 import com.magpiehunt.magpie.Fragments.QRFragment;
 import com.magpiehunt.magpie.Fragments.SearchCollectionsFragment;
@@ -42,7 +43,7 @@ import org.parceler.Parcels;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnCollectionSelectedListener,
         GoogleMapFragment.OnFragmentInteractionListener, QRFragment.OnFragmentInteractionListener, SearchCollectionsFragment.OnFragmentInteractionListener, PrizesFragment.OnFragmentInteractionListener,
-        CollectionLandmarksFragment.OnLandmarkSelectedListener, LandmarkFragment.OnLandmarkMapButtonListener, LandmarkContainerFragment.OnFragmentInteractionListener {
+        LandmarkListFragment.OnLandmarkSelectedListener, LandmarkFragment.OnLandmarkMapButtonListener, LandmarkContainerFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
     private static final int RC_SIGN_IN = 123;
@@ -249,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Bundle args = new Bundle();
         args.putInt("CID", cid);
         args.putString("Name", name);
+
         CollectionLandmarksFragment cl = CollectionLandmarksFragment.newInstance(args);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.fragment_container, cl);

@@ -58,7 +58,7 @@ public class Landmark {
 
     @SerializedName("Completed")
     @Expose
-    private String completed;
+    protected String completed;
 
     //@Ignore
     //Bitmap img;
