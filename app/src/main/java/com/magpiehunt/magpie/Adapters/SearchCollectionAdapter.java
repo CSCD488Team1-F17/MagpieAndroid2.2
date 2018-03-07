@@ -215,7 +215,7 @@ public class SearchCollectionAdapter extends RecyclerView.Adapter<SearchCollecti
         private void addCollectionToDB(Collection c) {
             final MagpieDatabase db = MagpieDatabase.getMagpieDatabase(context);
             db.collectionDao().addCollection(c);
-            log.e(TAG, c.getName() + " added to MagpieDatabase");
+            log.d(TAG, c.getName() + " added to MagpieDatabase");
             ApiService apiService = ServiceGenerator.createService(ApiService.class);
 
             Call<List<Landmark>> call = apiService.getLandmarks(c.getCID());
@@ -239,6 +239,8 @@ public class SearchCollectionAdapter extends RecyclerView.Adapter<SearchCollecti
 
                 @Override
                 public void onFailure(Call<List<Landmark>> call, Throwable t) {
+                    log.e(TAG, "Failed call to add landmarks to DB");
+                    log.e(TAG, t.getMessage());
 
                 }
             });

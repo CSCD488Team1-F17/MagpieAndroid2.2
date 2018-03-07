@@ -49,6 +49,11 @@ public class Collection {
     @Expose
     private String sponsor;
 
+    @SerializedName("Completed")
+    @Expose
+    private String completed;
+
+
     public int getCID() {
         return cID;
     }
@@ -135,6 +140,14 @@ public class Collection {
 
     public void setSponsor(String sponsor) {
         this.sponsor = sponsor;
+    }
+
+    public String getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(String completed) {
+        this.completed = completed;
     }
 
 }
