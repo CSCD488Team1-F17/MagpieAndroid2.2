@@ -17,37 +17,42 @@ public class Collection {
     @SerializedName("CID")
     @Expose
     @PrimaryKey
-    private int cID;
+    protected int cID;
     @SerializedName("Available")
     @Expose
-    private int available;
+    protected int available;
     @SerializedName("Name")
     @Expose
-    private String name;
+    protected String name;
     @SerializedName("City")
     @Expose
-    private String city;
+    protected String city;
     @SerializedName("State")
     @Expose
-    private String state;
+    protected String state;
     @SerializedName("ZipCode")
     @Expose
-    private int zipCode;
+    protected int zipCode;
     @SerializedName("Rating")
     @Expose
-    private String rating;
+    protected String rating;
     @SerializedName("Description")
     @Expose
-    private String description;
+    protected String description;
     @SerializedName("Ordered")
     @Expose
-    private boolean ordered;
+    protected boolean ordered;
     @SerializedName("Abbreviation")
     @Expose
-    private String abbreviation;
+    protected String abbreviation;
     @SerializedName("Sponsor")
     @Expose
-    private String sponsor;
+    protected String sponsor;
+
+    @SerializedName("Completed")
+    @Expose
+    protected String completed;
+
 
     public int getCID() {
         return cID;
@@ -135,6 +140,14 @@ public class Collection {
 
     public void setSponsor(String sponsor) {
         this.sponsor = sponsor;
+    }
+
+    public String getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(String completed) {
+        this.completed = completed;
     }
 
 }

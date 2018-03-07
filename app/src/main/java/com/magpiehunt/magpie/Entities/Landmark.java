@@ -56,6 +56,10 @@ public class Landmark {
     @Expose
     protected String subtitle;
 
+    @SerializedName("Completed")
+    @Expose
+    protected String completed;
+
     //@Ignore
     //Bitmap img;
 
@@ -157,6 +161,14 @@ public class Landmark {
 
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
+    }
+
+    public String getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(String completed) {
+        this.completed = completed;
     }
 
 }
