@@ -3,6 +3,7 @@ package com.magpiehunt.magpie.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,26 +22,23 @@ import com.magpiehunt.magpie.R;
  * create an instance of this fragment.
  */
 public class CollectionLandmarksFragment extends Fragment {
-
     private static final java.lang.String NAME = "Name";
     private static final java.lang.String CID = "CID";
-
     private int cid;
     private String cName;
     private OnFragmentInteractionListener mListener;
+    private FragmentManager fragmentManager;
+    private TabLayout tabBar;
 
+    public CollectionLandmarksFragment() {}
 
-
-    public CollectionLandmarksFragment() {
-        // Required empty public constructor
+    public static CollectionLandmarksFragment newInstance(){
+        return new CollectionLandmarksFragment();
     }
 
-
-    // TODO: Rename and change types and number of parameters
     public static CollectionLandmarksFragment newInstance(Bundle args) {
         CollectionLandmarksFragment fragment = new CollectionLandmarksFragment();
        // args.putString();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,26 +51,62 @@ public class CollectionLandmarksFragment extends Fragment {
             cName = getArguments().getString(NAME);
         }
 
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        //FragmentManager fragmentManager = getChildFragmentManager();
+        //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Bundle args = new Bundle();
         args.putInt("CID", cid);
         args.putString("Name", cName);
-        LandmarkListFragment cl = LandmarkListFragment.newInstance(args);
-        fragmentTransaction.replace(R.id.collectionLandmarksContainer, cl).commit();
+        //LandmarkListFragment cl = LandmarkListFragment.newInstance(args);
+        //fragmentTransaction.replace(R.id.collectionLandmarksContainer, cl).commit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        fragmentManager = getChildFragmentManager();
         View view = inflater.inflate(R.layout.fragment_collection_landmarks, container, false);
+        tabBar = view.findViewById(R.id.tabLayout);
+        TabLayout.Tab tab = tabBar.getTabAt(0);
+        tab.select();
+        tabBar.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Fragment fragment = null;
+                switch (tab.getPosition()) {
+                    case 0:
+                        fragment = LandmarkListFragment.newInstance(new Bundle());
+                        //fragment = LandmarkContainerFragment.newInstance();//GoogleMapFragment.newInstance();
+                        break;
+                    case 1:
+                        fragment = GoogleMapFragment.newInstance();
+                        break;
+                }
+                changeFragments(fragment);
+                for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                    fragmentManager.popBackStack();
+                }
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
+            }
 
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        changeFragments(LandmarkListFragment.newInstance(new Bundle()));
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    public int changeFragments(Fragment frag)
+    {
+        fragmentManager = getChildFragmentManager();
+        return fragmentManager.beginTransaction().replace(R.id.collectionLandmarksContainer, frag).commit();
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -107,7 +141,6 @@ public class CollectionLandmarksFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
