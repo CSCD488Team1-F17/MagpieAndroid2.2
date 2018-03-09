@@ -180,4 +180,5 @@ public class LandmarkFragment extends Fragment implements View.OnClickListener {
         void OnLandmarkMapSelected(Landmark landmark);
     }
 
+
 }

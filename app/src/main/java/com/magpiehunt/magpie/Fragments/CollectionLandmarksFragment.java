@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,9 @@ public class CollectionLandmarksFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private FragmentManager fragmentManager;
     private TabLayout tabBar;
+
+    Fragment listFragment;
+    Fragment mapFragment;
 
     public CollectionLandmarksFragment() {}
 
@@ -56,6 +58,14 @@ public class CollectionLandmarksFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt("CID", cid);
         args.putString("Name", cName);
+        Bundle listArgs = new Bundle();
+        listArgs.putInt("CID", cid);
+        listArgs.putString("Name", cName);
+        fragmentManager = getChildFragmentManager();
+
+        listFragment = LandmarkListFragment.newInstance(listArgs);
+        fragmentManager.beginTransaction().add(R.id.collectionLandmarksContainer, listFragment).commit();
+        mapFragment = GoogleMapFragment.newInstance();
         //LandmarkListFragment cl = LandmarkListFragment.newInstance(args);
         //fragmentTransaction.replace(R.id.collectionLandmarksContainer, cl).commit();
     }
@@ -63,28 +73,34 @@ public class CollectionLandmarksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentManager = getChildFragmentManager();
+        //fragmentManager = getChildFragmentManager();
         View view = inflater.inflate(R.layout.fragment_collection_landmarks, container, false);
         tabBar = view.findViewById(R.id.tabLayout);
         TabLayout.Tab tab = tabBar.getTabAt(0);
         tab.select();
+
+        if(tabBar.getTabAt(0).isSelected())
+            fragmentManager.beginTransaction().replace(R.id.collectionLandmarksContainer, this.listFragment).commit();
+        else if(tabBar.getTabAt(1).isSelected())
+            fragmentManager.beginTransaction().replace(R.id.collectionLandmarksContainer, this.mapFragment).commit();
+
         tabBar.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Fragment fragment = null;
+
                 switch (tab.getPosition()) {
                     case 0:
-                        fragment = LandmarkListFragment.newInstance(new Bundle());
+                        fragmentManager.beginTransaction().replace(R.id.collectionLandmarksContainer, listFragment).commit();
                         //fragment = LandmarkContainerFragment.newInstance();//GoogleMapFragment.newInstance();
                         break;
                     case 1:
-                        fragment = GoogleMapFragment.newInstance();
+                        fragmentManager.beginTransaction().replace(R.id.collectionLandmarksContainer, mapFragment).commit();
                         break;
                 }
-                changeFragments(fragment);
-                for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                //changeFragments(fragment);
+                /*for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
                     fragmentManager.popBackStack();
-                }
+                }*/
             }
 
             @Override
