@@ -13,7 +13,7 @@ import com.magpiehunt.magpie.Entities.Landmark;
 /**
  * Created by James on 1/12/2018.
  */
-@Database(entities = {Collection.class, Landmark.class}, version = 5)
+@Database(entities = {Collection.class, Landmark.class}, version = 5, exportSchema = false)
 
 public abstract class MagpieDatabase extends RoomDatabase {
 

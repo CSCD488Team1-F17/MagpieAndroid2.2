@@ -35,6 +35,8 @@ import com.magpiehunt.magpie.Fragments.SearchCollectionsFragment;
 
 import org.parceler.Parcels;
 
+import java.util.List;
+
 /**
  * Author:  Blake Impecoven
  * Date:    11/14/17.
@@ -100,30 +102,48 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setupFragments();
         this.addCollectionBtn = findViewById(R.id.button_addCollection_collection);
     }//end onCreate
-    @Override
+   /* @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        //onBackPressed();
 
         return true;
-    }
+    }*/
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
+
         fragmentManager = getSupportFragmentManager();
         hideBackButton();
         fragmentManager.popBackStack();
 
+
+
        // this.finish();
+    }
+    private boolean returnBackStackImmediate(FragmentManager fm) {
+        List<Fragment> fragments = fm.getFragments();
+        if (fragments != null && fragments.size() > 0) {
+            for (Fragment fragment : fragments) {
+                if (fragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
+                    if (fragment.getChildFragmentManager().popBackStackImmediate()) {
+                        return true;
+                    } else {
+                        return returnBackStackImmediate(fragment.getChildFragmentManager());
+                    }
+                }
+            }
+        }
+        return false;
     }
     public void hideBackButton()
     {
-        if(fragmentManager.getBackStackEntryCount() == 1 || fragmentManager.getBackStackEntryCount() == 0)
+        /*if(fragmentManager.getBackStackEntryCount() == 1 || fragmentManager.getBackStackEntryCount() == 0)
         {
             if (getSupportActionBar() != null){
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 getSupportActionBar().setDisplayShowHomeEnabled(false);
             }
-        }
+        }*/
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
