@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.magpiehunt.magpie.Entities.Landmark;
 import com.magpiehunt.magpie.Helper.GPSTracker;
+import com.magpiehunt.magpie.Helper.LocationTracker;
 import com.magpiehunt.magpie.Helper.MapLocationInfoWindow;
 import com.magpiehunt.magpie.R;
 
@@ -45,7 +46,7 @@ import static android.content.Context.LOCATION_SERVICE;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link GoogleMapFragment.OnFragmentInteractionListener} interface
+ *
  * to handle interaction events.
  * Use the {@link GoogleMapFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -53,20 +54,10 @@ import static android.content.Context.LOCATION_SERVICE;
 //TODO handle denied permissions requests
 //Fix map not reloading on reload of map fragment
 public class GoogleMapFragment extends Fragment //implements OnViewCollectionListener
-        //if you want to send data to this fragment use the following code
-    /*
-    private OnFragmentInteractionsListener mListener;
-
-    //then inside a function call
-    mListener.onFragmentInteraction(List<LatLon> locations);
-
-     */
         implements OnMapReadyCallback/*, LocationSource.OnLocationChangedListener*/ {
 
     private final int PERMISSION_REQUEST = 1;
-    //private bool hasPosition, mapActive;
-    //public List<Landmark> landmarks;
-    GPSTracker gpsTracker;
+    private LocationTracker userLocation;
     private List<String> locTitles;
     private List<LatLng> latLngs;
     private MenuItem addLocButton, saveLocButton;
@@ -75,9 +66,7 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     private Marker selectedMarker = null;//could be used in the future to allow for updating distance to location
     private ArrayList<Marker> markerList;
     private GoogleMap gMap = null;
-    private Location currLoc;
     private OnFragmentInteractionListener mListener;
-    private LatLng start = null;//curr loc
 
     public GoogleMapFragment() {}
 
@@ -120,45 +109,8 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         toolbar.setTitle("Map View");
         setHasOptionsMenu(true);
 
-        //check permissions
-        //ActivityCompat.requestPermissions(getActivity(),
-        //        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        LocationListener mLocationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                currLoc = location;
-                start = new LatLng(location.getLatitude(), location.getLongitude());
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
-        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        userLocation = new LocationTracker(getContext(), gMap);
         infoWindow = new MapLocationInfoWindow(getContext());
-        currLoc = new Location((LocationManager.GPS_PROVIDER));
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, mLocationListener);
-        }
-        else
-        {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-
         markerList = new ArrayList<Marker>();
 
         if (savedInstanceState != null) {
@@ -194,21 +146,15 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             mapFrag = SupportMapFragment.newInstance();
-            //ft.replace(R.id.map, mapFrag).commit();
             ft.replace(R.id.map, mapFrag).commit();
         }
         mapFrag.getMapAsync(this);
     }
 
-    public boolean checkLocationPermission() {
-        String permission = "android.permission.ACCESS_FINE_LOCATION";
-        int res = getActivity().checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
+        userLocation.setgMap(gMap);
         initMap();
     }
 
@@ -234,8 +180,8 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
                 Location pressedLocation = new Location("");
                 pressedLocation.setLatitude(marker.getPosition().latitude);
                 pressedLocation.setLongitude(marker.getPosition().longitude);
-                double distanceInMeters = currLoc.distanceTo(pressedLocation);
-                marker.setSnippet(roundFloat((float) distanceInMeters, 2) + " meters to Location.");
+                //double distanceInMeters = //currLoc.distanceTo(pressedLocation);
+                marker.setSnippet(roundFloat((float) userLocation.distanceToPoint(pressedLocation)/*distanceInMeters*/, 2) + " meters to Location.");
                 marker.showInfoWindow();
                 selectedMarker = marker;
                 return false;//this allows default behavior to take place
@@ -245,28 +191,17 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         mapSettings.setZoomControlsEnabled(true);
         mapSettings.setCompassEnabled(true);
         mapSettings.setRotateGesturesEnabled(true);
-        if (zoom != -1) {
-            gMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
-        }
-        if (checkLocationPermission()) {
-            gpsTracker = new GPSTracker(getActivity());
-            if (gpsTracker.canGetLocation()) {
-                start = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                currLoc.setLatitude(start.latitude);
-                currLoc.setLongitude(start.longitude);
-                moveToLocation(currLoc);
-                //double meters = 150;
-                //double coef = meters * 0.0000089;
-                //placeMarker(new LatLng(currLoc.getLatitude() + coef, currLoc.getLongitude()), "Test Marker");
-                if(latLngs != null){
-                    for(int i = 0; i < latLngs.size(); i++){
-                        placeMarker(latLngs.get(i), locTitles.get(i));
-                    }
+        if (userLocation.hasLocPermission()/*checkLocationPermission()*/) {
+
+            moveToLocation(userLocation.getCurrLoc());
+            if(latLngs != null){
+                for(int i = 0; i < latLngs.size(); i++){
+                    placeMarker(latLngs.get(i), locTitles.get(i));
                 }
-            } else {
-                Toast.makeText(getActivity(), "Permissions required to proceed.", Toast.LENGTH_SHORT).show();
-                //finish();//do something
             }
+        } else {
+            Toast.makeText(getActivity(), "Permissions required to proceed.", Toast.LENGTH_SHORT).show();
+            //finish();//do something
         }
     }
 
@@ -274,29 +209,10 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_location:
-                addCurrentLocation();
+                //addCurrentLocation();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1: {//request accepted
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    gpsTracker = new GPSTracker(getActivity());
-                    if (gpsTracker.canGetLocation()) {
-                        start = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                    } else {
-                        //permission denied
-                    }
-                    return;
-                }
-            }
-            //other cases can check for other permissions i might need
         }
     }
 
@@ -304,14 +220,14 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         gMap.addMarker(new MarkerOptions().position(loc).title(title).icon(BitmapDescriptorFactory.defaultMarker(190)));
     }
 
-    private void addCurrentLocation() {
+    /*private void addCurrentLocation() {
         placeMarker(new LatLng(currLoc.getLatitude(), currLoc.getLongitude()), "New Loc");
-    }
+    }*/
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        gpsTracker.stopUsingGPS();
+        userLocation.shutDown();//gpsTracker.stopUsingGPS();
         addLocButton.setVisible(false);
         saveLocButton.setVisible(false);
 
