@@ -102,19 +102,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setupFragments();
         this.addCollectionBtn = findViewById(R.id.button_addCollection_collection);
     }//end onCreate
-   /* @Override
+    @Override
     public boolean onSupportNavigateUp() {
-        //onBackPressed();
+        onBackPressed();
 
         return true;
-    }*/
+    }
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
 
         fragmentManager = getSupportFragmentManager();
-        hideBackButton();
-        fragmentManager.popBackStack();
+        if(fragmentManager.getBackStackEntryCount() > 0){
+            hideBackButton();
+            fragmentManager.popBackStack();
+        }
+        else
+            super.onBackPressed();
 
 
 
@@ -137,13 +141,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
     public void hideBackButton()
     {
-        /*if(fragmentManager.getBackStackEntryCount() == 1 || fragmentManager.getBackStackEntryCount() == 0)
+        if(fragmentManager.getBackStackEntryCount() == 1 || fragmentManager.getBackStackEntryCount() == 0)
         {
             if (getSupportActionBar() != null){
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 getSupportActionBar().setDisplayShowHomeEnabled(false);
             }
-        }*/
+        }
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -192,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         Fragment fragment = null;
                         switch (item.getItemId()) {
                             case R.id.menu_map:
-                                fragment = CollectionLandmarksFragment.newInstance();//GoogleMapFragment.newInstance();
+                                fragment = GoogleMapFragment.newInstance();
                                 break;
                             case R.id.menu_qr:
                                 fragment = QRFragment.newInstance();
