@@ -3,6 +3,7 @@ package com.magpiehunt.magpie.Fragments;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,8 @@ import com.google.zxing.Result;
 import com.magpiehunt.magpie.R;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -159,13 +162,16 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
 
     @Override//handle result from qr scanner
     public void handleResult(Result result) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("QR Code Found!");
-        builder.setMessage(result.getText());
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        //AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        //builder.setTitle("QR Code Found!");
+       // builder.setMessage(result.getText());
+        //AlertDialog alertDialog = builder.create();
+        //alertDialog.show();
 
-        //later change to sending code to other activity.
+        Intent i = new Intent(getContext(), QRFragment.class);
+        i.putExtra("qrresult", result.getText());
+        getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, i);
+        getFragmentManager().popBackStack();
     }
 
     /**

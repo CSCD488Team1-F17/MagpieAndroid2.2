@@ -1,6 +1,8 @@
 package com.magpiehunt.magpie.Fragments;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,11 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.magpiehunt.magpie.Entities.Landmark;
 import com.magpiehunt.magpie.R;
 
 import org.parceler.Parcels;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class LandmarkFragment extends Fragment implements View.OnClickListener {
@@ -60,6 +65,7 @@ public class LandmarkFragment extends Fragment implements View.OnClickListener {
     private TextView descriptionTv;
     private TextView subtitleTv;
     private ImageView landmarkIV;
+    private ImageView collectButton;
     private Button mapBtn;
 
     private Landmark mLandmark;
@@ -111,12 +117,23 @@ public class LandmarkFragment extends Fragment implements View.OnClickListener {
         this.subtitleTv = rootView.findViewById(R.id.landmarkSubTitle);
         this.landmarkIV = rootView.findViewById(R.id.landmarkImage);
         this.mapBtn = rootView.findViewById(R.id.mapButton);
+        this.collectButton = rootView.findViewById(R.id.collectButton);
         this.mapBtn.setOnClickListener(this);
 
         landmarkNameTv.setText(this.mLandmark.getLandmarkName());
         descriptionTv.setText(this.mLandmark.getLandmarkDescription());
         subtitleTv.setText(this.mLandmark.getSubtitle());
 
+        collectButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                android.support.v4.app.FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                QRFragment qrFragment = QRFragment.newInstance();
+                qrFragment.setTargetFragment(LandmarkFragment.this, 0);
+                ft.addToBackStack(qrFragment.getClass().getName());
+                ft.add(R.id.fragment_container, qrFragment, "qrfrag");
+            }
+        });
 
         //Bitmap img = BitmapFactory.decodeByteArray(mLandmark.getPicID(), 0, mLandmark.getPicID().length);
         //landmarkIV.setImageBitmap(img);
@@ -126,6 +143,16 @@ public class LandmarkFragment extends Fragment implements View.OnClickListener {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == 0){
+            String result = data.getStringExtra("qrresult");
+            
+            Toast.makeText(getActivity(),  "Result: " + result + " found.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onButtonPressed(Uri uri) {
