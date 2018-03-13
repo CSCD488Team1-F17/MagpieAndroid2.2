@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.magpiehunt.magpie.R;
 
+import java.lang.reflect.Field;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -113,7 +115,7 @@ public class CollectionLandmarksFragment extends Fragment {
 
             }
         });
-        changeFragments(LandmarkListFragment.newInstance(new Bundle()));
+        //changeFragments(LandmarkListFragment.newInstance(new Bundle()));
         return view;
     }
 
@@ -143,6 +145,17 @@ public class CollectionLandmarksFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         mListener = null;
     }
 

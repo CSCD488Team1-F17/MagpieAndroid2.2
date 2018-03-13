@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -122,8 +121,8 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         setHasOptionsMenu(true);
 
         //check permissions
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        //ActivityCompat.requestPermissions(getActivity(),
+        //        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -153,6 +152,11 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, mLocationListener);
+        }
+        else
+        {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
         markerList = new ArrayList<Marker>();
@@ -184,12 +188,13 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     public void onResume() {
 
         super.onResume();
-        SupportMapFragment mapFrag = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFrag = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.map);
 
         if (mapFrag == null) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             mapFrag = SupportMapFragment.newInstance();
+            //ft.replace(R.id.map, mapFrag).commit();
             ft.replace(R.id.map, mapFrag).commit();
         }
         mapFrag.getMapAsync(this);
@@ -309,6 +314,8 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         gpsTracker.stopUsingGPS();
         addLocButton.setVisible(false);
         saveLocButton.setVisible(false);
+
+
     }
 
     @Override
