@@ -36,7 +36,7 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class QRFragment extends Fragment implements ZXingScannerView.ResultHandler{
-    private boolean status = false;
+    private boolean status = false, isChildOfLandmark = false;
     private Button scanButton;
     private ZXingScannerView scanner;
 
@@ -61,6 +61,11 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
         QRFragment fragment = new QRFragment();
         Bundle args = new Bundle();
         return fragment;
+    }
+    public static QRFragment newInstance(boolean childOfLandmark){//alternate constructor use when opened from LandmarkFrag
+        QRFragment thisFrag = new QRFragment();
+        thisFrag.childOfLandmark();
+        return thisFrag;
     }
 
     @Override
@@ -107,6 +112,10 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
         if(scanner != null){
             scanner.startCamera();
         }
+    }
+
+    public void childOfLandmark(){
+        isChildOfLandmark = true;
     }
 
     public boolean checkQRPermission() {
@@ -162,16 +171,15 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
 
     @Override//handle result from qr scanner
     public void handleResult(Result result) {
-        //AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        //builder.setTitle("QR Code Found!");
-       // builder.setMessage(result.getText());
-        //AlertDialog alertDialog = builder.create();
-        //alertDialog.show();
-
-        Intent i = new Intent(getContext(), QRFragment.class);
-        i.putExtra("qrresult", result.getText());
-        getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, i);
-        getFragmentManager().popBackStack();
+        if(isChildOfLandmark){
+            Intent i = new Intent(getContext(), QRFragment.class);
+            i.putExtra("qrresult", result.getText());
+            getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, i);
+            getFragmentManager().popBackStack();
+        }
+        else{
+            Toast.makeText(getContext(), "Found: " + result.getText(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

@@ -187,10 +187,12 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
                 return false;//this allows default behavior to take place
             }
         });
+        gMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         UiSettings mapSettings = gMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(true);
         mapSettings.setCompassEnabled(true);
         mapSettings.setRotateGesturesEnabled(true);
+
         if (userLocation.hasLocPermission()/*checkLocationPermission()*/) {
 
             moveToLocation(userLocation.getCurrLoc());

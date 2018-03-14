@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.magpiehunt.magpie.Entities.Landmark;
+import com.magpiehunt.magpie.MainActivity;
 import com.magpiehunt.magpie.R;
 
 import org.parceler.Parcels;
@@ -127,11 +128,13 @@ public class LandmarkFragment extends Fragment implements View.OnClickListener {
         collectButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                MainActivity a = (MainActivity) getActivity();
                 android.support.v4.app.FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                QRFragment qrFragment = QRFragment.newInstance();
+                QRFragment qrFragment = QRFragment.newInstance(true);
                 qrFragment.setTargetFragment(LandmarkFragment.this, 0);
                 ft.addToBackStack(qrFragment.getClass().getName());
                 ft.add(R.id.fragment_container, qrFragment, "qrfrag");
+                ft.commit();
             }
         });
 
@@ -150,8 +153,11 @@ public class LandmarkFragment extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && requestCode == 0){
             String result = data.getStringExtra("qrresult");
-            
+
             Toast.makeText(getActivity(),  "Result: " + result + " found.", Toast.LENGTH_SHORT).show();
+            if(mLandmark.getQRCode() == result){
+                mLandmark.setCompleted();
+            }
         }
     }
 

@@ -23,6 +23,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.magpiehunt.magpie.Database.MagpieDatabase;
+import com.magpiehunt.magpie.Entities.Collection;
 import com.magpiehunt.magpie.Entities.Landmark;
 import com.magpiehunt.magpie.Fragments.CollectionFragment;
 import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
@@ -90,6 +92,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }//end if
+
+            MagpieDatabase db = MagpieDatabase.getMagpieDatabase(this);
+            //create collection here
+            Collection c = new Collection();
+            c.setCID(0);
+            c.setAbbreviation("abbr");
+            c.setAvailable(1);
+            c.setName("test");
+
+
+            db.collectionDao().addCollection(c);
+            //create landmarks for that collection
+            Landmark l = new Landmark();
+            l.setBadgeID(R.drawable.magpie_test_cardview_collectionimage);
+            l.setLandmarkName("test landmark");
+            l.setBadgeID(0);
+            l.setCID(0);
+            db.landmarkDao().addLandmark(l);
         }//end if/else
 
         // Firebase Database Initialization - Soon to come...
