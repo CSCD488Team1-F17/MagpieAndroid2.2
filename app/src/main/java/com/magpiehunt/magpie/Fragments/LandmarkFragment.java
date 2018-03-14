@@ -156,7 +156,7 @@ public class LandmarkFragment extends Fragment implements View.OnClickListener {
 
             Toast.makeText(getActivity(),  "Result: " + result + " found.", Toast.LENGTH_SHORT).show();
             if(mLandmark.getQRCode() == result){
-                mLandmark.setCompleted();
+                mLandmark.setCompleted(true);
             }
         }
     }

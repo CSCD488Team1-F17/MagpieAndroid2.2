@@ -58,7 +58,7 @@ public class Landmark {
 
     @SerializedName("Completed")
     @Expose
-    protected String completed;
+    protected boolean completed;
 
     //@Ignore
     //Bitmap img;
@@ -163,11 +163,11 @@ public class Landmark {
         this.subtitle = subtitle;
     }
 
-    public String getCompleted() {
+    public boolean getCompleted() {
         return completed;
     }
 
-    public void setCompleted(String completed) {
+    public void setCompleted(boolean completed) {
         this.completed = completed;
     }
 
