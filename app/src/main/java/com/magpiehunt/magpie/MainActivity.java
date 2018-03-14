@@ -99,17 +99,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             c.setCID(0);
             c.setAbbreviation("abbr");
             c.setAvailable(1);
-            c.setName("test");
+            c.setName("test");//*/
 
 
             db.collectionDao().addCollection(c);
             //create landmarks for that collection
             Landmark l = new Landmark();
-            l.setBadgeID(R.drawable.magpie_test_cardview_collectionimage);
+
             l.setLandmarkName("test landmark");
             l.setBadgeID(0);
             l.setCID(0);
-            db.landmarkDao().addLandmark(l);
+            db.landmarkDao().addLandmark(l);//*/
         }//end if/else
 
         // Firebase Database Initialization - Soon to come...

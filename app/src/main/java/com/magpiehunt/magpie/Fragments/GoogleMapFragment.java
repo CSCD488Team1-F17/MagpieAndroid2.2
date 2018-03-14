@@ -109,7 +109,7 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         toolbar.setTitle("Map View");
         setHasOptionsMenu(true);
 
-        userLocation = new LocationTracker(getContext(), gMap);
+        userLocation = new LocationTracker(getActivity(), getContext(), gMap);
         infoWindow = new MapLocationInfoWindow(getContext());
         markerList = new ArrayList<Marker>();
 
@@ -154,6 +154,7 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
+        userLocation.shutDown();
         userLocation.setgMap(gMap);
         initMap();
     }
@@ -193,7 +194,15 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         mapSettings.setCompassEnabled(true);
         mapSettings.setRotateGesturesEnabled(true);
 
-        if (userLocation.hasLocPermission()/*checkLocationPermission()*/) {
+        if(userLocation.checkLocationPermission()){
+            moveToLocation(userLocation.getCurrLoc());
+            if(latLngs != null){
+                for(int i = 0; i < latLngs.size(); i++){
+                    placeMarker(latLngs.get(i), locTitles.get(i));
+                }
+            }
+        }
+        /*if (userLocation.hasLocPermission()) {
 
             moveToLocation(userLocation.getCurrLoc());
             if(latLngs != null){
@@ -204,7 +213,7 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         } else {
             Toast.makeText(getActivity(), "Permissions required to proceed.", Toast.LENGTH_SHORT).show();
             //finish();//do something
-        }
+        }//*/
     }
 
     @Override
