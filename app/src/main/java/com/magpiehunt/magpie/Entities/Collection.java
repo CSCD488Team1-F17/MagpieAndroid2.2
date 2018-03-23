@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by James on 1/10/2018.
+ *
+ * This is the Room entity that stores information for each Collection
  */
 
 @Entity(tableName = "Collections")

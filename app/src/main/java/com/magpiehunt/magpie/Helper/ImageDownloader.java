@@ -21,6 +21,8 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 
 /**
  * Created by James on 3/2/2018.
+ *
+ * This class was an attempt to download images for landmarks and badges but was cut short by not having a functional CMS to test with
  */
 
 public class ImageDownloader {

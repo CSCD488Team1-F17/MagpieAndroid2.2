@@ -6,7 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by bimpecoven on 11/14/17.
+ *
+ * This class shhows a splash screen for a couple seconds on app startup
  */
+
+
 
 public class SplashActivity extends AppCompatActivity {
     @Override

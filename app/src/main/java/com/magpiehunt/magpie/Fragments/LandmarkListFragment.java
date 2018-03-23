@@ -22,6 +22,12 @@ import java.util.List;
 
 import static com.loopj.android.http.AsyncHttpClient.log;
 
+/**
+ * This fragment displays a list (RecyclerView) of landmarks in the selected collection. Landmarks are retrieved
+ * from the Room database using Collection CID
+ * Nested fragment inside of CollectionLandmarksFragment
+ * RecyclerView adapter for this fragment is LandmarkAdapter
+ */
 public class LandmarkListFragment extends Fragment {
 
     private static final String TAG = "LandmarkListFragment";

@@ -23,6 +23,10 @@ import com.magpiehunt.magpie.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This fragment displays all collections currently saved in the Room database in a recyclerview
+ * RecyclerView adapter for this fragment is CollectionAdapter
+ */
 public class CollectionFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "CollectionFragment";

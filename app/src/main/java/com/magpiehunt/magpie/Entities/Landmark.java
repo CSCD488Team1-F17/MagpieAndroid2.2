@@ -12,6 +12,7 @@ import org.parceler.Parcel;
 
 /**
  * Created by James on 1/10/2018.
+ * This is the Room entity that stores information for each Landmark
  */
 @Parcel
 @Entity(tableName = "Landmarks", foreignKeys = @ForeignKey(

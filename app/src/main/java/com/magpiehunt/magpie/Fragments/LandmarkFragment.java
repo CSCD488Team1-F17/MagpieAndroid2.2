@@ -1,6 +1,5 @@
 package com.magpiehunt.magpie.Fragments;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,7 +23,10 @@ import org.parceler.Parcels;
 
 import static android.app.Activity.RESULT_OK;
 
-
+/**
+ * This fragment displays the selected landmark from LandmarkListFragment all information is passed
+ * through a bundle
+ */
 public class LandmarkFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

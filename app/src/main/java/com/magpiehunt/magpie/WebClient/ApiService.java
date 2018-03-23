@@ -12,6 +12,8 @@ import retrofit2.http.Path;
 
 /**
  * Created by James on 1/20/2018.
+ *
+ * This interface handles all Retrofit API calls to the CMS
  */
 
 public interface ApiService {

@@ -12,6 +12,9 @@ import com.magpiehunt.magpie.Entities.Landmark;
 
 /**
  * Created by James on 1/12/2018.
+ *
+ * This class contains the Room database for the Magpie app
+ * Entities are accessed via DAOs
  */
 @Database(entities = {Collection.class, Landmark.class}, version = 6, exportSchema = false)
 

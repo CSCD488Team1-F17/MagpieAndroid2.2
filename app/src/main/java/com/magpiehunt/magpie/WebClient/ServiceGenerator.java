@@ -6,12 +6,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by James on 1/20/2018.
+ *
+ * This class creates a Retrofit Service
+ *
+ * An example of how to use this can be found in the SearchCollectionsFragment
  */
 
 //TODO HawkAuthenticationInterceptor by Retrofit
 public class ServiceGenerator {
 
-    private static final String BASE_URL = "http://10.104.177.40/api/";
+
+    //Change this URL to testing IP or CMS (once it is functional)
+    private static final String BASE_URL = "http://10.104.176.248/api/";
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()

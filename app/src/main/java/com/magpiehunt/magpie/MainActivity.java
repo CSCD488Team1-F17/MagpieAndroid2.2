@@ -24,7 +24,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.magpiehunt.magpie.Database.MagpieDatabase;
-import com.magpiehunt.magpie.Entities.Collection;
 import com.magpiehunt.magpie.Entities.Landmark;
 import com.magpiehunt.magpie.Fragments.CollectionFragment;
 import com.magpiehunt.magpie.Fragments.CollectionLandmarksFragment;
@@ -42,6 +41,9 @@ import java.util.List;
 /**
  * Author:  Blake Impecoven
  * Date:    11/14/17.
+ *
+ * This class sets up authentication with FirebaseUI, navigation and all initial fragments. Fragment interactions are also handled through this activity
+ * Currently authentication is not fully set up and does not handle any cases past initial login
  */
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, CollectionFragment.OnCollectionSelectedListener,
@@ -52,17 +54,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static final int RC_SIGN_IN = 123;
     public Menu optionsMenu;
     protected BottomNavigationView bottomNavigationView;
-    /*
-     * Firebase/Google instance variables
-    **/
+
+    //Firebase/Google instance variables
     FirebaseAuth mFirebaseAuth;
     FirebaseUser mFirebaseUser;
     GoogleApiClient mGoogleApiClient;
     private int requestCode = 0;
-    private FragmentManager fragmentManager;
-    private Button addCollectionBtn;
     private String mUsername;
     private String mPhotoUrl; // Optional - if we want their photo
+
+    private FragmentManager fragmentManager;
+    private Button addCollectionBtn;
+
     //private FirebaseAuth.AuthStateListener authListener;
 
     @Override
@@ -94,26 +97,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }//end if
 
             MagpieDatabase db = MagpieDatabase.getMagpieDatabase(this);
-            //create collection here
-            Collection c = new Collection();
-            c.setCID(0);
-            c.setAbbreviation("abbr");
-            c.setAvailable(1);
-            c.setName("test");//*/
 
-
-            db.collectionDao().addCollection(c);
-            //create landmarks for that collection
-            Landmark l = new Landmark();
-
-            l.setLandmarkName("test landmark");
-            l.setBadgeID(0);
-            l.setCID(0);
-            db.landmarkDao().addLandmark(l);//*/
         }//end if/else
-
-        // Firebase Database Initialization - Soon to come...
-//        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         //Create bottom navigation bar to switch between app pages
         bottomNavigationView = findViewById(R.id.navigation);
@@ -130,8 +115,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-
         fragmentManager = getSupportFragmentManager();
         if(fragmentManager.getBackStackEntryCount() > 0){
             hideBackButton();
@@ -139,10 +122,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
         else
             super.onBackPressed();
-
-
-
-       // this.finish();
     }
     private boolean returnBackStackImmediate(FragmentManager fm) {
         List<Fragment> fragments = fm.getFragments();
@@ -282,10 +261,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
 
-    public BottomNavigationView getBottomNavigationView() {
-        return bottomNavigationView;
-    }
-
+    //from collectionFragment
     @Override
     public void onCollectionSelected(int cid, String name) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -300,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         fragmentTransaction.commit();
     }
 
+    //from landmarkListFragment
     @Override
     public void onLandmarkSelected(Landmark l) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -324,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         fragmentTransaction.commit();
     }
 
+    //from landmarkFragment
     @Override
     public void OnLandmarkMapSelected(Landmark landmark) {
 

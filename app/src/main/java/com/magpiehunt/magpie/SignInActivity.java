@@ -22,6 +22,8 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 /**
  * Author:  Blake Impecoven
  * Date:    11/14/17.
+ *
+ * This class handles signing in and returns back to mainActivity with a result
  */
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {

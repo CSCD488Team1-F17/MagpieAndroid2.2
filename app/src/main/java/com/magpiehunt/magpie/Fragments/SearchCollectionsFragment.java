@@ -27,12 +27,9 @@ import retrofit2.Response;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SearchCollectionsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SearchCollectionsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ *
+ * This class displays all Collections available on the CMS (during testing the CMS was running locally)
+ * RecyclerView for this fragment is SearchCollectionAdapter
  */
 public class SearchCollectionsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

@@ -15,12 +15,8 @@ import com.magpiehunt.magpie.R;
 import java.lang.reflect.Field;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CollectionLandmarksFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CollectionLandmarksFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment acts as a wrapper around LandmarkList and an instance of GoogleMapFragment
+ * Fragments are replaced using a TabLayout
  */
 public class CollectionLandmarksFragment extends Fragment {
     private static final java.lang.String NAME = "Name";
