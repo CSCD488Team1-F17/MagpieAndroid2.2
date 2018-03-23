@@ -22,9 +22,11 @@ import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by evan g on 3/13/2018.
+ * This class is pretty generic so that you can use it within any fragment/activity you want to check the location of the device.
+ * For examples on how it could be implemented, see the GoogleMapsFragment
  */
 
-//after initialization you can call hasLocPermission in order to check if mermissions were accepted or not
+//after initialization you can call hasLocPermission in order to check if permissions were accepted or not
 //that way your fragment/activity can handle the results appropriatly
 public class LocationTracker implements ActivityCompat.OnRequestPermissionsResultCallback{
     private Activity a;
@@ -32,7 +34,7 @@ public class LocationTracker implements ActivityCompat.OnRequestPermissionsResul
     private GoogleMap gMap;
     private boolean hasPermission = false;
     //private GPSTracker gpsTracker;
-    private static double validDistanceInMeters = 50;
+    private static double validDistanceInMeters = 50;//change this later to whatever the valid distance you decide on then
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
     private Location currLoc;
@@ -61,13 +63,6 @@ public class LocationTracker implements ActivityCompat.OnRequestPermissionsResul
         if(PermissionChecker.checkCallingOrSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 PermissionChecker.checkCallingOrSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             hasPermission = true;
-            /*gpsTracker = new GPSTracker(context);
-            if (gpsTracker.canGetLocation()) {
-                coords = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                currLoc = new Location("");
-                currLoc.setLatitude(coords.latitude);
-                currLoc.setLongitude(coords.longitude);
-            }//*/
             mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
             mLocationListener = new LocationListener() {
                 @Override

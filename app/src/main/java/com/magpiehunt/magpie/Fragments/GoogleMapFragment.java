@@ -32,7 +32,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.magpiehunt.magpie.Entities.Landmark;
-import com.magpiehunt.magpie.Helper.GPSTracker;
 import com.magpiehunt.magpie.Helper.LocationTracker;
 import com.magpiehunt.magpie.Helper.MapLocationInfoWindow;
 import com.magpiehunt.magpie.R;
@@ -41,20 +40,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.LOCATION_SERVICE;
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
+ * This fragment is used on the nav bar as well as when you click on the map tab within a collection to see a location
+ * currently the alternate newInstance function is not used but when you want to implement collection data loading to the map use that.
  *
- * to handle interaction events.
- * Use the {@link GoogleMapFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
-//TODO handle denied permissions requests
-//Fix map not reloading on reload of map fragment
-public class GoogleMapFragment extends Fragment //implements OnViewCollectionListener
-        implements OnMapReadyCallback/*, LocationSource.OnLocationChangedListener*/ {
+
+//TODO handle denied permissions requests better
+//TODO Fix map not reloading on reload of map fragment properly
+public class GoogleMapFragment extends Fragment
+        implements OnMapReadyCallback {
 
     private final int PERMISSION_REQUEST = 1;
     private LocationTracker userLocation;
@@ -75,6 +70,7 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         return fragment;
     }
 
+    //use this for loading Landmarks to map upon loading of map
     public static GoogleMapFragment newInstance(List<Landmark> landmarkList){
         GoogleMapFragment fragment = new GoogleMapFragment();
         if(landmarkList != null && landmarkList.size() != 0)
@@ -109,7 +105,6 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         toolbar.setTitle("Map View");
         setHasOptionsMenu(true);
 
-        userLocation = new LocationTracker(getActivity(), getContext(), gMap);
         infoWindow = new MapLocationInfoWindow(getContext());
         markerList = new ArrayList<Marker>();
 
@@ -154,8 +149,10 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
-        userLocation.shutDown();
-        userLocation.setgMap(gMap);
+        if(userLocation != null){
+            userLocation.shutDown();
+        }
+        userLocation = new LocationTracker(getActivity(), getContext(), gMap);
         initMap();
     }
 
@@ -202,20 +199,9 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
                 }
             }
         }
-        /*if (userLocation.hasLocPermission()) {
-
-            moveToLocation(userLocation.getCurrLoc());
-            if(latLngs != null){
-                for(int i = 0; i < latLngs.size(); i++){
-                    placeMarker(latLngs.get(i), locTitles.get(i));
-                }
-            }
-        } else {
-            Toast.makeText(getActivity(), "Permissions required to proceed.", Toast.LENGTH_SHORT).show();
-            //finish();//do something
-        }//*/
     }
 
+    //TODO remove unused options menu items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -227,13 +213,10 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         }
     }
 
+    //use this function to place a marker on the map
     private void placeMarker(LatLng loc, String title) {
         gMap.addMarker(new MarkerOptions().position(loc).title(title).icon(BitmapDescriptorFactory.defaultMarker(190)));
     }
-
-    /*private void addCurrentLocation() {
-        placeMarker(new LatLng(currLoc.getLatitude(), currLoc.getLongitude()), "New Loc");
-    }*/
 
     @Override
     public void onDestroyView() {
@@ -258,21 +241,6 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         super.onDetach();
         mListener = null;
     }
-    /*public void OnViewCollectionListener(){
-        //public void on
-    }//*/
-
-    //try using this to get the fragment
-    //getFragmentManager().findFragmentById(R.id.google_map_fragment);
-    //and then call this function with required landmarks to display data
-    /*public void displayCollection(List<Landmark> newCollection) {
-        landmarks = newCollection;
-        if (gMap != null) {
-            for (Landmark l : landmarks) {
-                showLandmark(l);
-            }
-        }
-    }//*/
 
     //=======================helper functions==========================
     private void showLandmark(Landmark landmark) {
@@ -281,31 +249,6 @@ public class GoogleMapFragment extends Fragment //implements OnViewCollectionLis
         opt.title(landmark.getLandmarkName());
         gMap.addMarker(opt);
     }
-
-    private boolean hasPermission() {
-        return ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public void typePressed(View v) {
-        int type = gMap.getMapType();
-        if (type == GoogleMap.MAP_TYPE_NORMAL) {
-            gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        } else if (type == GoogleMap.MAP_TYPE_TERRAIN) {
-            gMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        } else if (type == GoogleMap.MAP_TYPE_TERRAIN) {
-            gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        }
-    }
-
-    /*public void markPressed(View v){
-        Location l = getLocation();
-        LatLng coords = new LatLng(l.getLatitude(), l.getLongitude());
-        marks.add(new MarkerOptions());
-        marks.get(marks.size() - 1).position(coords);
-        marks.get(marks.size() - 1).title("Mark " + marks.size());
-        gMap.addMarker(marks.get(marks.size() - 1));
-    }//*/
 
     private Location getLocation() {
         LocationRequest lr = new LocationRequest();
