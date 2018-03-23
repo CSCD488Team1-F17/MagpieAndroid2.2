@@ -28,27 +28,16 @@ import static android.app.Activity.RESULT_OK;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link QRFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link QRFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment is used for scanning a QR code to verify that the user is at the correct location
+ * if the previous fragment was the Landmark fragment then the result of the scan (upon qr code being found) is returned to that fragment
+ * if this fragment was selected from the nav bar it currently just prints it to the screen. obviously this will need a bit of wiring work.
  */
+//TODO handle denied permissions better
+//TODO result of qr scan could be handled better
 public class QRFragment extends Fragment implements ZXingScannerView.ResultHandler{
     private boolean status = false, isChildOfLandmark = false;
     private Button scanButton;
     private ZXingScannerView scanner;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public QRFragment() {
@@ -71,12 +60,6 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
     }
 
     @Override
@@ -145,7 +128,6 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -169,7 +151,8 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
         mListener = null;
     }
 
-    @Override//handle result from qr scanner
+    //handle result from qr scanner see top of file for a description of what this is currently doing.
+    @Override
     public void handleResult(Result result) {
         if(isChildOfLandmark){
             Intent i = new Intent(getContext(), QRFragment.class);
@@ -182,18 +165,7 @@ public class QRFragment extends Fragment implements ZXingScannerView.ResultHandl
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
