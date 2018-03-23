@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
 
 
-    //Change this URL to testing IP or CMS (once it is functional)
+    //Change this URL to local testing CMS IP or CMS (once it is functional)
     private static final String BASE_URL = "http://10.104.176.248/api/";
 
     private static Retrofit.Builder builder =
